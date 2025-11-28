@@ -11,7 +11,7 @@ int currentAutonSelection = 0;        // Current auton selection
 void toSideWall(int side)
 {
   chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(SIDEWALL_DISTANCE, -90*side, 1);
+  chassis.driveToWall(SIDEWALL_DISTANCE, 90*side, 1);
   chassis.turnToHeading(180, 10, 1);
 }
 
@@ -30,18 +30,20 @@ void toMatchload()
 
   // push into the match load 
   chassis.driveWithVoltage(10, 10);
-  wait(80, msec);
+  wait(100, msec);
   chassis.stop(hold);
 
   // get matchloads
-  wait(500, msec);
+  wait(1000, msec);
   stopRollers();
 }
 
+
+// assume robot facing south
 void toLongGoal()
 {
   float d = getFrontDistance();
-  chassis.driveDistance(d- GOAL_DISTANCE, 180, 2);
+  chassis.driveDistance(d- GOAL_DISTANCE - 2, 180, 2);
   chassis.stop(hold);
 }
 
@@ -68,27 +70,28 @@ void pushWithHorn()
 // ----------------------------------------------------------------------------
 void right4()
 {
+  //get three balls from the right side
   chassis.setHeading(0);
   intake();
   chassis.driveDistance(15, 45, 10);
   chassis.driveDistance(27, 3);
+
+  // turn towards match load
   chassis.turnToHeading(0, 10, 10);
   chassis.driveDistance(-24, 0, 10);
   chassis.turnToHeading(90, 12, 10);
 
   // todo: drive to the long goal
-  return;
+  toSideWall(1);
 
   // score in the long goal and push with hood
   toLongGoal();
+
     // score balls
   scoreLong();
-  setMatchload(false);
-
-  //todo: tune the timing
-  wait(200, msec);
+  wait(2000, msec);
   stopRollers();
-  pushWithHood();
+ // pushWithHood();
 }
 
 void left4()
@@ -101,6 +104,35 @@ void left7()
 
 void right7()
 {
+  chassis.setHeading(0);
+  intake();
+  chassis.driveDistance(15, 45, 10);
+  chassis.driveDistance(27, 3);
+
+  // turn towards match load
+  chassis.turnToHeading(0, 10, 10);
+  chassis.driveDistance(-24, 0, 10);
+  chassis.turnToHeading(90, 12, 10);
+
+  // todo: drive to the long goal
+  toSideWall(1);
+
+  // score in the long goal and push with hood
+  toLongGoal();
+
+    // score balls
+  scoreLong();
+  setMatchload(true);
+  wait(1500, msec);
+  stopRollers();
+
+  toMatchload();
+
+  toLongGoal();
+  scoreLong();
+  wait(3000, msec);
+  stopRollers();
+  pushWithHood();
 }
 
 // Runs the selected autonomous routine.

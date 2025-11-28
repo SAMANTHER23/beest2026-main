@@ -1,10 +1,10 @@
-#define field1
+#define homeField
 
-#ifdef field1
+#ifdef homeField
 // field 1
-float const GOAL_DISTANCE = 35.5;
-float const SIDEWALL_DISTANCE = 21;
-float const FRONTWALL_DISTANCE = 15.5;
+float const GOAL_DISTANCE = 40.4;
+float const SIDEWALL_DISTANCE = 20.4;
+float const FRONTWALL_DISTANCE = 16.6;
 #endif
 
 #ifdef field2

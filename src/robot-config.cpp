@@ -12,12 +12,12 @@ motor leftMotor1 = motor(PORT11, ratio18_1, true);
 motor leftMotor2 = motor(PORT12, ratio6_1, true);
 motor leftMotor3 = motor(PORT13, ratio6_1, true);
 
-motor rightMotor1 = motor(PORT1, ratio18_1, false);
+motor rightMotor1 = motor(PORT5, ratio18_1, false);
 motor rightMotor2 = motor(PORT2, ratio6_1, false);
 motor rightMotor3 = motor(PORT3, ratio6_1, false);
 
 inertial inertial1 = inertial(PORT7);
-float inertialSensorScale = 359;
+float inertialSensorScale = 361;
 
 // ------------------------------------------------------------------------
 //        Other subsystems: motors, sensors and helper functions definition
@@ -25,7 +25,7 @@ float inertialSensorScale = 359;
 motor intakeMotor = motor(PORT17, ratio6_1, false);
 motor scoreMotor = motor(PORT18, ratio6_1, false);
 
-motor matchLoadMotor = motor(14, ratio18_1, false);
+motor matchLoadMotor = motor(PORT14, ratio18_1, false);
 motor hornMotor = motor(-1, ratio18_1, true);
 
 // total number of motors, including drivetrain
@@ -47,7 +47,7 @@ float getFrontDistance(){
 
 void intake(){
   intakeMotor.spin(forward, 12, volt);
-  scoreMotor.stop(hold);
+  scoreMotor.spin(forward, 1, volt);
 }
 
 void stopRollers(){
@@ -105,12 +105,12 @@ void toggleMatchLoad()
   matchLoadUp = !matchLoadUp;
   if (!matchLoadUp)
   {
-    matchLoadMotor.spinFor(reverse, 300, degrees);
+    matchLoadMotor.spinFor(forward, 300, degrees);
     matchLoadMotor.stop(coast);
   }
   else
   {
-    matchLoadMotor.spinFor(forward, 300, degrees);
+    matchLoadMotor.spinFor(reverse, 300, degrees);
     matchLoadMotor.stop(coast);
     wait(20, msec);
     matchLoadMotor.stop(hold);
@@ -444,7 +444,11 @@ void buttonAAction()
 
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
+
+right7();
   
+
+
 
 
   double t2 = Brain.Timer.time(sec);

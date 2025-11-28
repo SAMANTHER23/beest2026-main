@@ -8,6 +8,8 @@ void pushWithHood();
 void toSideWall(int side);
 void toMatchload();
 void toLongGoal();
+void right4();
+void right7();
 
 // todo: actual autons
 
