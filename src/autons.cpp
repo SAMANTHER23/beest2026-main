@@ -16,7 +16,7 @@ void toSideWall(int side)
 }
 
 // assume the robot is facing south
-void toMatchload()
+void toMatchload(int side)
 {
   if(matchLoadUp) 
   {
@@ -26,11 +26,12 @@ void toMatchload()
   intake();
   // drive to  the match load 
   chassis.getDistanceFunc = getFrontDistance;
+  if(side == -1) chassis.turnToHeading(160, 10, 10);
   chassis.driveToWall(FRONTWALL_DISTANCE - 3, 10, 180, 6, 3);
 
   // push into the match load 
   chassis.driveWithVoltage(10, 10);
-  wait(100, msec);
+  wait(90, msec);
   chassis.stop(hold);
 
   // get matchloads
@@ -96,10 +97,54 @@ void right4()
 
 void left4()
 {
+  chassis.setHeading(0);
+  intake();
+  chassis.driveDistance(15, -47, 10);
+  chassis.driveDistance(27, 3);
+
+  // turn towards match load
+  chassis.turnToHeading(0, 10, 10);
+  chassis.driveDistance(-24, 0, 10);
+  chassis.turnToHeading(-90, 12, 10);
+
+  toSideWall(-1);
+  toLongGoal();
+
+    // score balls
+  scoreLong();
+  wait(2000, msec);
+  stopRollers();
+  pushWithHood();
 }
 
 void left7()
 {
+    chassis.setHeading(0);
+  intake();
+  chassis.driveDistance(15, -50, 10);
+  chassis.driveDistance(27, 3);
+
+  // turn towards match load
+  chassis.turnToHeading(0, 10, 10);
+  chassis.driveDistance(-24, 0, 10);
+  chassis.turnToHeading(-90, 12, 10);
+
+  toSideWall(-1);
+  toLongGoal();
+
+    // score balls
+  scoreLong();
+  setMatchload(true);
+  wait(1500, msec);
+  stopRollers();
+  
+  //get match loads
+  toMatchload(-1);
+
+  //score match loads
+  toLongGoal();
+  scoreBalls(3000);
+  pushWithHood();
 }
 
 void right7()
@@ -113,6 +158,7 @@ void right7()
   chassis.turnToHeading(0, 10, 10);
   chassis.driveDistance(-24, 0, 10);
   chassis.turnToHeading(90, 12, 10);
+  
 
   // todo: drive to the long goal
   toSideWall(1);
@@ -129,9 +175,7 @@ void right7()
   toMatchload();
 
   toLongGoal();
-  scoreLong();
-  wait(3000, msec);
-  stopRollers();
+  scoreBalls(3300);
   pushWithHood();
 }
 

@@ -6,10 +6,12 @@
 void pushWithHorn();
 void pushWithHood();
 void toSideWall(int side);
-void toMatchload();
+void toMatchload(int side = 1);
 void toLongGoal();
 void right4();
 void right7();
+void left4();
+void left7();
 
 // todo: actual autons
 
