@@ -11,8 +11,8 @@ int currentAutonSelection = 0;        // Current auton selection
 void toSideWall(int side)
 {
   chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(SIDEWALL_DISTANCE, 90*side, 1);
-  chassis.turnToHeading(180, 10, 1);
+  chassis.driveToWall(SIDEWALL_DISTANCE, 90*side, 2);
+  chassis.turnToHeading(180, 10, 2);
 }
 
 // assume the robot is facing south
@@ -25,17 +25,18 @@ void toMatchload(int side)
   }
   intake();
   // drive to  the match load 
+  chassis.setHeading(180);
   chassis.getDistanceFunc = getFrontDistance;
   if(side == -1) chassis.turnToHeading(160, 10, 10);
   chassis.driveToWall(FRONTWALL_DISTANCE - 3, 10, 180, 6, 3);
 
   // push into the match load 
   chassis.driveWithVoltage(10, 10);
-  wait(90, msec);
+  wait(80, msec);
   chassis.stop(hold);
 
   // get matchloads
-  wait(1000, msec);
+  wait(990, msec);
   stopRollers();
 }
 
@@ -52,11 +53,11 @@ void toLongGoal()
 // assume at the back of the long goal
 void pushWithHood(){
   chassis.driveWithVoltage(10, 10);
-  wait(200, msec);
+  wait(150, msec);
   chassis.stop(brake);
-  wait(100, msec); //no tipping
+  wait(50, msec); //no tipping
   chassis.driveWithVoltage(-10, -10);
-  wait(300, msec);
+  wait(200, msec);
   chassis.stop(hold); 
 }
 
@@ -74,7 +75,7 @@ void right4()
   //get three balls from the right side
   chassis.setHeading(0);
   intake();
-  chassis.driveDistance(15, 45, 10);
+  chassis.driveDistance(15, 50, 10);
   chassis.driveDistance(27, 3);
 
   // turn towards match load
@@ -99,7 +100,7 @@ void left4()
 {
   chassis.setHeading(0);
   intake();
-  chassis.driveDistance(15, -47, 10);
+  chassis.driveDistance(15, -45, 10);
   chassis.driveDistance(27, 3);
 
   // turn towards match load
@@ -139,6 +140,7 @@ void left7()
   stopRollers();
   
   //get match loads
+  intake();
   toMatchload(-1);
 
   //score match loads
@@ -151,7 +153,7 @@ void right7()
 {
   chassis.setHeading(0);
   intake();
-  chassis.driveDistance(15, 45, 10);
+  chassis.driveDistance(15, 50, 10);
   chassis.driveDistance(27, 3);
 
   // turn towards match load
@@ -169,13 +171,13 @@ void right7()
     // score balls
   scoreLong();
   setMatchload(true);
-  wait(1500, msec);
+  wait(1000, msec);
   stopRollers();
 
   toMatchload();
 
   toLongGoal();
-  scoreBalls(3300);
+  scoreBalls(2500);
   pushWithHood();
 }
 
