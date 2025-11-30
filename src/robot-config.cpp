@@ -445,9 +445,7 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-  toMatchload(1);
-  toLongGoal();
-
+right7();
 
 
   double t2 = Brain.Timer.time(sec);

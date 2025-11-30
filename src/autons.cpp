@@ -24,19 +24,19 @@ void toMatchload(int side)
     wait(1500, msec);
   }
   intake();
+
   // drive to  the match load 
-  chassis.setHeading(180);
   chassis.getDistanceFunc = getFrontDistance;
   if(side == -1) chassis.turnToHeading(160, 10, 10);
-  chassis.driveToWall(FRONTWALL_DISTANCE - 3, 10, 180, 6, 3);
+  chassis.driveToWall(FRONTWALL_DISTANCE-3, 10, 180, 6, 2);
 
   // push into the match load 
-  chassis.driveWithVoltage(10, 10);
-  wait(80, msec);
+  chassis.driveWithVoltage(8, 8);
+  wait(100, msec);
   chassis.stop(hold);
 
   // get matchloads
-  wait(990, msec);
+  wait(900, msec);
   stopRollers();
 }
 
@@ -45,19 +45,18 @@ void toMatchload(int side)
 void toLongGoal()
 {
   float d = getFrontDistance();
-  chassis.driveDistance(d- GOAL_DISTANCE - 2, 180, 2);
+  chassis.driveDistance(d- GOAL_DISTANCE - 3, 180, 2);
   chassis.stop(hold);
 }
-
 
 // assume at the back of the long goal
 void pushWithHood(){
   chassis.driveWithVoltage(10, 10);
-  wait(150, msec);
+  wait(200, msec);
   chassis.stop(brake);
   wait(50, msec); //no tipping
-  chassis.driveWithVoltage(-10, -10);
-  wait(200, msec);
+  chassis.driveWithVoltage(-12, -12);
+  wait(250, msec);
   chassis.stop(hold); 
 }
 
@@ -120,14 +119,14 @@ void left4()
 
 void left7()
 {
-    chassis.setHeading(0);
+  chassis.setHeading(0);
   intake();
   chassis.driveDistance(15, -50, 10);
   chassis.driveDistance(27, 3);
 
   // turn towards match load
   chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-24, 0, 10);
+  chassis.driveDistance(-20, 0, 10);
   chassis.turnToHeading(-90, 12, 10);
 
   toSideWall(-1);
@@ -152,20 +151,18 @@ void left7()
 void right7()
 {
   chassis.setHeading(0);
+
+  //get three balls from the right side
   intake();
   chassis.driveDistance(15, 50, 10);
   chassis.driveDistance(27, 3);
 
   // turn towards match load
   chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-24, 0, 10);
+  chassis.driveDistance(-18, 0, 10);
   chassis.turnToHeading(90, 12, 10);
   
-
-  // todo: drive to the long goal
   toSideWall(1);
-
-  // score in the long goal and push with hood
   toLongGoal();
 
     // score balls
@@ -175,9 +172,9 @@ void right7()
   stopRollers();
 
   toMatchload();
-
   toLongGoal();
   scoreBalls(2500);
+
   pushWithHood();
 }
 
