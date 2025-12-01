@@ -26,13 +26,13 @@ void toMatchload(int side)
   intake();
 
   // drive to  the match load 
+  chassis.driveDistance(24, 180, 10);
   chassis.getDistanceFunc = getFrontDistance;
-  if(side == -1) chassis.turnToHeading(160, 10, 10);
-  chassis.driveToWall(FRONTWALL_DISTANCE-3, 10, 180, 6, 2);
+  chassis.driveToWall(FRONTWALL_DISTANCE-3, 6, 180, 6, 3);
 
-  // push into the match load 
-  chassis.driveWithVoltage(8, 8);
-  wait(100, msec);
+  // push into the match load
+  chassis.driveWithVoltage(10, 10);
+  wait(80, msec);
   chassis.stop(hold);
 
   // get matchloads
@@ -52,9 +52,9 @@ void toLongGoal()
 // assume at the back of the long goal
 void pushWithHood(){
   chassis.driveWithVoltage(10, 10);
-  wait(200, msec);
+  wait(150, msec);
   chassis.stop(brake);
-  wait(50, msec); //no tipping
+  wait(100, msec); //no tipping
   chassis.driveWithVoltage(-12, -12);
   wait(250, msec);
   chassis.stop(hold); 
@@ -168,7 +168,7 @@ void right7()
     // score balls
   scoreLong();
   setMatchload(true);
-  wait(1000, msec);
+  wait(1200, msec);
   stopRollers();
 
   toMatchload();

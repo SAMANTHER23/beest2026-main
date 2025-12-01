@@ -17,7 +17,7 @@ motor rightMotor2 = motor(PORT2, ratio6_1, false);
 motor rightMotor3 = motor(PORT3, ratio6_1, false);
 
 inertial inertial1 = inertial(PORT7);
-float inertialSensorScale = 361;
+float inertialSensorScale = 360;
 
 // ------------------------------------------------------------------------
 //        Other subsystems: motors, sensors and helper functions definition
@@ -326,7 +326,7 @@ Drive chassis(
 void setChassisDefaults() {
   // Sets the targeting heading of the chassis to the current heading of the inertial sensor.
   chassis.setGyroScale(inertialSensorScale);
-  chassis.setHeading(chassis.getHeading());
+  chassis.setHeading(chassis.inertialSensor.heading());
 
   chassis.setMaxVoltage(10, 10, 6);
   // Sets the drive PID constants for the chassis.
@@ -445,8 +445,7 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-right7();
-
+  right7();
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

@@ -47,16 +47,16 @@ void Drive::setDriveExitConditions(float driveSettleError, float driveSettleTime
 
 void Drive::setGyroScale(float gyroScale)
 {
-  gyro_scale = gyroScale;
+  this -> gyro_scale = gyroScale;
 }
 
 void Drive::setHeading(float orientationDeg) {
-  inertialSensor.setHeading(orientationDeg*gyro_scale/360.0, deg);
-  targetHeading = orientationDeg*gyro_scale/360.0;
+  inertialSensor.setRotation(orientationDeg*gyro_scale/360.0, deg);
+  targetHeading = orientationDeg;
 }
 
 float Drive::getHeading() {
-  return( normalize360( inertialSensor.heading()*360.0/gyro_scale ) ); 
+  return( normalize360( inertialSensor.rotation()*360.0/gyro_scale ) ); 
 }
 
 float Drive::getLeftPosition() {
