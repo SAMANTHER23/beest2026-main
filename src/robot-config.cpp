@@ -47,6 +47,7 @@ float getFrontDistance(){
 
 void intake(){
   intakeMotor.spin(forward, 12, volt);
+  scoreMotor.stop(hold);
   scoreMotor.spin(forward, 1, volt);
 }
 
@@ -221,7 +222,23 @@ void buttonR2Action()
 }
 
 void buttonR1Action(){
-  toggleMatchLoad();
+  setMatchload(true);
+  intake();
+  chassis.stop(hold);
+
+  while(controller1.ButtonR1.pressing()){
+    if (matchColor()) intake();
+    else scoreLong();
+    wait(100, msec);
+  }
+  stopRollers();
+  float d = getFrontDistance();
+  if ( d > 0 && d < FRONTWALL_DISTANCE + 2) 
+  {
+    chassis.driveDistance(-10, chassis.getHeading(), 1);
+  }
+  setMatchload(false);
+  chassis.stop(coast);
 }
 
 void buttonDownAction()
@@ -271,14 +288,13 @@ void buttonYAction()
 }
 
 void buttonLeftAction(){
-  //todo:  descore macro?
   if (autonTestMode) return; 
-
 }
 
 void buttonRightAction(){
-  //todo:  descore macro?
   if (autonTestMode) return; 
+
+  toggleMatchLoad();
 }
 
 
@@ -445,7 +461,8 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-  right7();
+right7();
+
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

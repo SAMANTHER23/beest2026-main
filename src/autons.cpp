@@ -16,28 +16,28 @@ void toSideWall(int side)
 }
 
 // assume the robot is facing south
-void toMatchload(int side)
+void toMatchload(int side) // left side and right side may be different
 {
   if(matchLoadUp) 
   {
     setMatchload(true);
-    wait(1500, msec);
+    wait(1000, msec);
   }
   intake();
 
   // drive to  the match load 
-  chassis.driveDistance(24, 180, 10);
+  chassis.driveDistance(24, 180, 2);
   chassis.getDistanceFunc = getFrontDistance;
   chassis.driveToWall(FRONTWALL_DISTANCE-3, 6, 180, 6, 3);
 
   // push into the match load
   chassis.driveWithVoltage(10, 10);
-  wait(80, msec);
+  wait(90, msec);
   chassis.stop(hold);
 
   // get matchloads
-  wait(900, msec);
-  stopRollers();
+  wait(800, msec);
+//  stopRollers();
 }
 
 
@@ -173,7 +173,7 @@ void right7()
 
   toMatchload();
   toLongGoal();
-  scoreBalls(2500);
+  scoreBalls(2400);
 
   pushWithHood();
 }

@@ -1,11 +1,15 @@
 #include "vex.h"
 
 float normalize180(float angle) {
-  return fmod(angle + 540, 360) - 180;
+  return fmod(fmod(angle + 180, 360) + 360, 360) - 180;
 }
 
 float normalize360(float angle) {
-  return fmod(angle + 360, 360);
+    float result = fmod(angle, 360.0f);
+    if (result < 0.0f) {
+        result += 360.0f;
+    }
+    return result;
 }
 
 float threshold(float input, float min, float max){
