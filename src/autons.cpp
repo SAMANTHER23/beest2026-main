@@ -25,14 +25,15 @@ void toMatchload(int side) // left side and right side may be different
   }
   intake();
 
-  // drive to  the match load 
-  chassis.driveDistance(24, 180, 2);
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(FRONTWALL_DISTANCE-3, 6, 180, 6, 3);
+  // drive near  the match load 
+  float d = getFrontDistance();
+  chassis.driveDistance(d-FRONTWALL_DISTANCE -2, 180, 2);
 
   // push into the match load
-  chassis.driveWithVoltage(10, 10);
-  wait(90, msec);
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(FRONTWALL_DISTANCE-5, 6, 180, 6, 3);
+  chassis.driveWithVoltage(8, 8);
+  wait(150, msec);
   chassis.stop(hold);
 
   // get matchloads
