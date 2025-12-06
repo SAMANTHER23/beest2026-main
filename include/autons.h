@@ -3,7 +3,6 @@
 #include "parameters.h"
 
 // helper functions
-void pushWithHorn();
 void pushWithHood();
 void toSideWall(int side);
 void toMatchload(int side = 1);

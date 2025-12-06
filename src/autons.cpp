@@ -6,15 +6,6 @@ int currentAutonSelection = 0;        // Current auton selection
 //             Helper functions
 // ----------------------------------------------------------------------------
 
-// assume the robot is either facing left or right
-// -1 for left side, 1 for right side
-void toSideWall(int side)
-{
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(SIDEWALL_DISTANCE, 90*side, 2);
-  chassis.turnToHeading(180, 10, 2);
-}
-
 // assume the robot is facing south
 void toMatchload(int side) // left side and right side may be different
 {
@@ -41,6 +32,13 @@ void toMatchload(int side) // left side and right side may be different
 //  stopRollers();
 }
 
+// assume the robot is either facing left or right
+void toSideWall(int side)
+{
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(SIDEWALL_DISTANCE, 90*side, 2);
+  chassis.turnToHeading(180, 10, 2);
+}
 
 // assume robot facing south
 void toLongGoal()
@@ -61,10 +59,6 @@ void pushWithHood(){
   chassis.stop(hold); 
 }
 
-  // assume at the back of the long goal
-void pushWithHorn()
-{
-}
 
 
 // ----------------------------------------------------------------------------
