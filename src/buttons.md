@@ -16,6 +16,7 @@
 ## R1
 * Press to toggle matchload
 * Hold to run matchload macro
+* Puts matchload down and intakes. small little marcro
 
 ## B
 *  toggle brake mode
@@ -29,6 +30,7 @@
 ## Right 
 * If in test mode, press to scroll forward through auton menu
 * Descore macro
+* Toggle matchload
 
 ## Left 
 * If in test mode, nothing

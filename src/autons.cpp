@@ -173,6 +173,13 @@ void right7()
   pushWithHood();
 }
 
+void skillAuton()
+{
+  intake();
+  wait(1000, msec);
+  stopRollers();
+}
+
 // Runs the selected autonomous routine.
 void runAutonItem() {
   additionalSetup();
@@ -189,6 +196,9 @@ void runAutonItem() {
   case 3:
     right7();
     break;
+  case 4:
+    skillAuton();
+    break;
   }
 }
 
@@ -197,7 +207,8 @@ char const * autonMenuText[] = {
   "left 4",
   "right 4 ",
   "left 7",
-  "right 7 "
+  "right 7 ",
+  "skills"
 };
 
 
