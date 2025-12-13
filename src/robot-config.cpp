@@ -461,10 +461,7 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-  chassis.setHeading(180);
-  toMatchload(-1);
-  chassis.driveDistance(-12);
-  toggleMatchLoad();
+  right4();
   
 
 
