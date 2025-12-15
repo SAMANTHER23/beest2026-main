@@ -12,7 +12,7 @@ void right7();
 void left4();
 void left7();
 
-// todo: actual autons
+void scoreMiddlePreload();
 
 
 // system functions and variables

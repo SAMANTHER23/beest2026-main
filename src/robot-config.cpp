@@ -461,10 +461,6 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-  right4();
-  
-
-
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

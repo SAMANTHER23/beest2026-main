@@ -18,13 +18,15 @@ void toMatchload(int side) // left side and right side may be different
 
   // drive near  the match load 
   float d = getFrontDistance();
-  chassis.driveDistance(d-FRONTWALL_DISTANCE -2, 180, 2);
+  float h = 180;
+  if (side == -1) h = 170;
+  chassis.driveDistance(d-FRONTWALL_DISTANCE - 5, h, 2);
 
   // push into the match load
   chassis.getDistanceFunc = getFrontDistance;
   chassis.driveToWall(FRONTWALL_DISTANCE-5, 6, 180, 6, 3);
-  chassis.driveWithVoltage(9, 9);
-  wait(175, msec);
+  chassis.driveWithVoltage(8, 8);
+  wait(200, msec);
   chassis.stop(hold);
 
   // get matchloads
@@ -66,28 +68,20 @@ void pushWithHood(){
 // ----------------------------------------------------------------------------
 void right4()
 {
-  //get three balls from the right side
   chassis.setHeading(0);
+
+  //get three balls from the right side
   intake();
-  chassis.driveDistance(15, 47, 10);
+  chassis.driveDistance(15, 45, 10);
   chassis.driveDistance(27, 3);
 
-  // turn towards match load
+  // turn towards long goal
   chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-24, 0, 10);
+  chassis.driveDistance(-18, 0, 10);
   chassis.turnToHeading(90, 12, 10);
-
-  // todo: drive to the long goal
+  
   toSideWall(1);
-
-  // score in the long goal and push with hood
   toLongGoal();
-
-    // score balls
-  scoreLong();
-  wait(2000, msec);
-  stopRollers();
-  pushWithHood();
 }
 
 void left4()
@@ -99,33 +93,16 @@ void left4()
 
   // turn towards match load
   chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-24, 0, 10);
+  chassis.driveDistance(-18, 0, 10);
   chassis.turnToHeading(-90, 12, 10);
 
   toSideWall(-1);
   toLongGoal();
-
-    // score balls
-  scoreLong();
-  wait(2000, msec);
-  stopRollers();
-  pushWithHood();
 }
 
 void left7()
 {
-  chassis.setHeading(0);
-  intake();
-  chassis.driveDistance(15, -50, 10);
-  chassis.driveDistance(27, 3);
-
-  // turn towards match load
-  chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-20, 0, 10);
-  chassis.turnToHeading(-90, 12, 10);
-
-  toSideWall(-1);
-  toLongGoal();
+  left4();
 
     // score balls
   scoreLong();
@@ -145,36 +122,34 @@ void left7()
 
 void right7()
 {
-  chassis.setHeading(0);
+  right4();
 
-  //get three balls from the right side
-  intake();
-  chassis.driveDistance(15, 45, 10);
-  chassis.driveDistance(27, 3);
-
-  // turn towards match load
-  chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-18, 0, 10);
-  chassis.turnToHeading(90, 12, 10);
-  
-  toSideWall(1);
-  toLongGoal();
-
-    // score balls
+  // score balls
   scoreLong();
   setMatchload(true);
   wait(1200, msec);
   stopRollers();
 
-
-  //
-  chassis.driveDistance(16, 170, 10);
-  chassis.turnToHeading(180, 12, 1);
   toMatchload();
   toLongGoal();
   scoreBalls(2400);
 
   pushWithHood();
+  setMatchload(false);
+}
+
+void scoreMiddlePreload(){
+  // score preloaded ball in middle goal
+  chassis.setHeading(180);
+  chassis.driveDistance(-30, 185, 2);
+  scoreMotor.setVelocity(30, percent);
+  scoreMotor.setTimeout(1000, msec);
+  scoreMotor.spinFor(forward, 360, degrees);
+  wait(50, msec);
+  // intake 3 balls from the field
+  chassis.turnToHeading(-110, 10, 10);
+  intake();
+  chassis.driveDistance(18, 3);
 }
 
 void skillAuton()
@@ -190,9 +165,19 @@ void runAutonItem() {
   switch (currentAutonSelection) {
   case 0:
     left4();
+    // score balls
+    scoreLong();
+    wait(2000, msec);
+    stopRollers();
+    pushWithHood();
     break;
   case 1:
     right4();
+    // score balls
+    scoreLong();
+    wait(2000, msec);
+    stopRollers();
+    pushWithHood();
     break;
   case 2:
     left7();
