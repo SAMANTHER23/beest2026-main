@@ -5,7 +5,7 @@
 // helper functions
 void pushWithHood();
 void toSideWall(int side);
-void toMatchload(int side = 1);
+void goaltoMatchLoad(int side = 1);
 void toLongGoal();
 void right4();
 void right7();

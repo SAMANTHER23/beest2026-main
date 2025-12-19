@@ -200,8 +200,8 @@ void buttonL2Action() {
     else {
       if (controller1.ButtonR2.pressing()) 
       {
-        // do middle goal macro
-        scoreMiddle();
+        // eject balls macro
+        ejectBalls();
       }
       else scoreLong();
     }
@@ -227,8 +227,6 @@ void buttonR1Action(){
   chassis.stop(hold);
 
   while(controller1.ButtonR1.pressing()){
-    if (matchColor()) intake();
-    else scoreLong();
     wait(100, msec);
   }
   stopRollers();
@@ -460,6 +458,8 @@ void buttonAAction()
 
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
+
+right7();
 
 
   double t2 = Brain.Timer.time(sec);
