@@ -26,7 +26,7 @@ motor intakeMotor = motor(PORT17, ratio6_1, false);
 motor scoreMotor = motor(PORT18, ratio6_1, false);
 
 motor matchLoadMotor = motor(PORT14, ratio18_1, false);
-motor hornMotor = motor(-1, ratio18_1, true);
+motor wingMotor = motor(PORT6, ratio18_1, false);
 
 // total number of motors, including drivetrain
 const int NUMBER_OF_MOTORS = 9;
@@ -133,25 +133,25 @@ void setMatchload(bool down)
   }
 }
 
-bool hornUp = false;
-void setHorn(bool descore){
-  if(descore && hornUp){
-    hornMotor.setVelocity(100, percent);
-    hornMotor.setTimeout(1000, msec);
-    hornMotor.spinFor(reverse, 200, degrees);
-    hornMotor.stop(coast);
-    hornMotor.stop(hold);
+bool wingUp = false;
+void setWing(bool descore){
+  if(descore && wingUp){
+    wingMotor.setVelocity(100, percent);
+    wingMotor.setTimeout(1000, msec);
+    wingMotor.spinFor(reverse, 250, degrees);
+    wingMotor.stop(coast);
+    wingMotor.stop(hold);
     chassis.stop(hold);
-    hornUp = false;
+    wingUp = false;
     return;
   }
-  if (!descore && !hornUp){
-    hornMotor.spin(forward, 6, volt);
+  if (!descore && !wingUp){
+    wingMotor.spin(forward, 6, volt);
     wait(100, msec);
-    waitUntil(hornMotor.torque() > 0.3);
-    hornMotor.stop(brake);
+    waitUntil(wingMotor.torque() > 0.3);
+    wingMotor.stop(brake);
     chassis.stop(coast);
-    hornUp = true;
+    wingUp = true;
   }
 }
 
@@ -172,13 +172,13 @@ void additionalSetup() {
   matchLoadMotor.stop(hold);
   matchLoadMotor.setVelocity(100, percent);
   matchLoadMotor.setTimeout(500, msec);
-  //  setHorn(false);
 }
 
 // ------------------------------------------------------------------------
 //              Button controls
 // ------------------------------------------------------------------------
 void buttonL1Action() {
+ // setWing(false);
   while(controller1.ButtonL1.pressing()){
     if (controller1.ButtonR2.pressing()) 
     {
@@ -212,11 +212,11 @@ void buttonL2Action() {
 
 void buttonR2Action()
 {
-  if(hornUp) {
-    setHorn(true);
+  if(wingUp) {
+    setWing(true);
     chassis.stop(hold);
   } else {
-    setHorn(false);
+    setWing(false);
     chassis.stop(coast);
   }   
 }
@@ -399,6 +399,7 @@ void usercontrol(void) {
   // Exits the autonomous menu.
   exitAuton();
   additionalSetup();
+ // setWing(false);
 
   // This loop runs forever, controlling the robot during the driver control period.
   while (1) {
@@ -459,7 +460,9 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-right7();
+  chassis.setHeading(180);
+  setWing(false);
+  pushWithWing();
 
 
   double t2 = Brain.Timer.time(sec);

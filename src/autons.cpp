@@ -87,7 +87,17 @@ void pushWithHood(){
   chassis.stop(hold); 
 }
 
-
+// assume robot at the back of the long goal and wing is up
+void pushWithWing()
+{
+  chassis.driveDistance(11, 180, 2);
+  chassis.turnToHeading(120, 10, 5);
+  chassis.driveDistance(-9, 135, 2);
+  chassis.turnToHeading(-170, 10, 10, -1);
+  setWing(true);
+  chassis.driveDistance(-15, 12, 180, 6, 3);
+  chassis.driveDistance(-4, 4, 180, 6, 1);
+}
 
 // ----------------------------------------------------------------------------
 //             autons functions

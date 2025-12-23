@@ -47,7 +47,7 @@ void Drive::setDriveExitConditions(float driveSettleError, float driveSettleTime
 
 void Drive::setGyroScale(float gyroScale)
 {
-  this -> gyro_scale = gyroScale;
+  gyro_scale = gyroScale;
 }
 
 void Drive::setHeading(float orientationDeg) {
@@ -304,6 +304,35 @@ void Drive::checkStatus(){
     headingOutput = threshold(headingOutput, -headingMaxVoltage, headingMaxVoltage);
     driveWithVoltage(driveOutput + headingOutput, driveOutput - headingOutput);
    
+    wait(10, msec);
+  }
+  if (earlyExitFactor == 1)
+  {
+    leftDrive.stop(hold);
+    rightDrive.stop(hold);
+  }
+}
+
+void Drive::turnToHeading(float heading, float turnMaxVoltage, float earlyExitFactor, int swing)
+{
+  if (earlyExitFactor > 10) earlyExitFactor = 10;
+  if (earlyExitFactor < 1) earlyExitFactor = 1;
+  targetHeading = normalize360(heading);
+  PID turnPID(turnKp, turnKi, turnKd, turnStarti, turnSettleError*earlyExitFactor , turnSettleTime/earlyExitFactor, turnTimeout);
+  while (!turnPID.isDone() && !drivetrainNeedsStopped) {
+    float error = normalize180(heading - getHeading());
+    float output = turnPID.update(error);
+    output = threshold(output, -turnMaxVoltage, turnMaxVoltage);
+    if (swing == -1)
+    {
+      leftDrive.stop(hold);
+      rightDrive.spin(fwd, -output, volt);
+    }
+    else if (swing == 1)
+    {
+      rightDrive.stop(hold);
+      leftDrive.spin(fwd, output, volt);
+    }
     wait(10, msec);
   }
   if (earlyExitFactor == 1)

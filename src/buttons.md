@@ -10,7 +10,7 @@
 *  If hold R2 before press L1, run score middle goal macro
 
 ## R2
-*  Press to toggle horn 
+*  Press to toggle wing 
 *  When in descore mode, the brake is on. Otherwise, the brake is off
 
 ## R1

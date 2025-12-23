@@ -8,9 +8,9 @@ void scoreLong();
 bool matchColor();
 
 
-void scoreBalls(int duration);  //for three balls
+void scoreBalls(int duration);  
 float getFrontDistance();
-void setHorn(bool descore);
+void setWing(bool descore);
 void setMatchload(bool down);
 
 extern motor scoreMotor;

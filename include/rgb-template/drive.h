@@ -108,6 +108,8 @@ public:
 
     // earlyExitFactor: nonstopping if greater than 1. Maxium is 5.
   void turnToHeading(float heading, float turnMaxVoltage, float earlyExitFactor = 1);
+    void turnToHeading(float heading, float turnMaxVoltage, float earlyExitFactor, int swing);
+
   void driveDistance(float distance, float heading, float earlyExitFactor);
     // earlyExitFactor: nonstopping if greater than 1. Maxium is 5.
   void driveDistance(float distance, float driveMaxVoltage, float heading, float headingMaxVoltage,  float earlyExitFactor = 1);
