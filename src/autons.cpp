@@ -19,16 +19,17 @@ void goaltoMatchLoad(int side) // left side and right side may be different
   // drive near  the match load 
   float d = getFrontDistance();
   float h = 180;
-  if (side == -1) h = 170;
-    if (side == 1) h = 170;
+  if (side == -1) h = 177;
+  if (side == 1) h = 182;
 
-  chassis.driveDistance(d-FRONTWALL_DISTANCE - 5, h, 2);
+  chassis.driveDistance(d-FRONTWALL_DISTANCE - 2, h, 2);
 
   // push into the match load
   chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(FRONTWALL_DISTANCE-5, 6, 180, 6, 3);
+  if (side == -1) chassis.driveToWall(FRONTWALL_DISTANCE-4, 6, 180, 6, 3);
+  if (side == 1) chassis.driveToWall(FRONTWALL_DISTANCE-3, 6, 180, 6, 3);
   chassis.driveWithVoltage(8, 8);
-  wait(200, msec);
+  wait(120, msec);
   chassis.stop(hold);
 
   // get matchloads
@@ -46,7 +47,6 @@ void toMatchLoad(int side) // left side and right side may be different
     wait(1000, msec);
   }
   intake();
-
 
   // push into the match load
   chassis.getDistanceFunc = getFrontDistance;
@@ -72,14 +72,14 @@ void toSideWall(int side)
 void toLongGoal()
 {
   float d = getFrontDistance();
-  chassis.driveDistance(d- GOAL_DISTANCE - 3, 180, 2);
+  chassis.driveDistance(d- GOAL_DISTANCE - 2, 180, 2);
   chassis.stop(hold);
 }
 
 // assume at the back of the long goal
 void pushWithHood(){
   chassis.driveWithVoltage(10, 10);
-  wait(150, msec);
+  wait(200, msec);
   chassis.stop(brake);
   wait(100, msec); //no tipping
   chassis.driveWithVoltage(-12, -12);
@@ -179,7 +179,9 @@ void left7()
 
   //score match loads
   toLongGoal();
-  scoreBalls(3000);
+  scoreLong();
+  setMatchload(false);
+  scoreBalls(2500);
   pushWithHood();
 }
 
@@ -193,12 +195,16 @@ void right7()
   wait(1200, msec);
   stopRollers();
 
-  goaltoMatchLoad();
-  toLongGoal();
-  scoreBalls(2400);
+  intake();
+  goaltoMatchLoad(1);
 
-  pushWithHood();
+  //score match loads
+  toLongGoal();
+  scoreLong();
   setMatchload(false);
+  scoreBalls(2500);
+  pushWithHood();
+
 }
 
 void scoreMiddlePreload(){

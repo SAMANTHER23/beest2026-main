@@ -15,7 +15,6 @@
 
 ## R1
 * Press to toggle matchload
-* Hold to run matchload macro
 * Puts matchload down and intakes. small little marcro
 
 ## B
@@ -29,12 +28,11 @@
 
 ## Right 
 * If in test mode, press to scroll forward through auton menu
-* Descore macro
-* Toggle matchload
+* If not in test mode, toggle matchload
 
 ## Left 
-* If in test mode, nothing
-* Descore macro
+* press to cycle through color sort modes
+* hold to eject balls
 
 ## Up
 * hold to run score roller half speed
@@ -43,13 +41,11 @@
 * hold to reverse intake
 
 ## Y
-* If not in test mode, press to cycle through color sort modes
-* If not in test mode, hold to eject balls
-* If in test mode, chang and save color sort mode to SD card
+* If not in test mode, matchload marco
+* If in test mode, cycle through drive mode
 
 ## X
-* If not in test mode, change Drive Mode
-* If in test mode, chang and save Drive Mode to SD card
+* If not in test mode, descore macro
 
 # Test mode
 Button A = press within 5 sec of start to active test mode
@@ -58,3 +54,8 @@ A button in test mode = run auton.
 
 # For comp switch
 To change autons, press top half screen. To change color sort, press bottom half.
+
+# Setup program
+Right arrow to cycle through default auton
+Left arrow to cycle through team color 
+

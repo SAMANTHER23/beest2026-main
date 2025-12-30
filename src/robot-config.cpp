@@ -138,7 +138,7 @@ void setWing(bool descore){
   if(descore && wingUp){
     wingMotor.setVelocity(100, percent);
     wingMotor.setTimeout(1000, msec);
-    wingMotor.spinFor(reverse, 250, degrees);
+    wingMotor.spinFor(reverse, 180, degrees);
     wingMotor.stop(coast);
     wingMotor.stop(hold);
     chassis.stop(hold);
@@ -267,26 +267,30 @@ void buttonXAction()
 {
   // disable button if in auton test mode b/c auton test mode buttons do the same thing
   if (autonTestMode) return; 
-  changeDriveMode();
+  // macro to descore with wing
 }
 
 void buttonYAction()
 {
   // disable button if in auton test mode b/c auton test mode buttons do the same thing
   if (autonTestMode) return; 
-  changeColorSortMode();
-  wait(300, msec);
-  if (controller1.ButtonY.pressing()){
-    ejectBalls();
-    while (controller1.ButtonY.pressing()){
-      wait(50, msec);
-    }
-    stopRollers();
-  }
+
+  // macro to matchload and intake
 }
 
 void buttonLeftAction(){
   if (autonTestMode) return; 
+  changeColorSortMode();
+
+  wait(300, msec);
+  if (controller1.ButtonLeft.pressing()){
+    ejectBalls();
+    while (controller1.ButtonLeft.pressing()){
+      wait(50, msec);
+    }
+    stopRollers();
+  }
+
 }
 
 void buttonRightAction(){
@@ -459,11 +463,9 @@ void buttonAAction()
 
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
-
+  
   chassis.setHeading(180);
-  setWing(false);
   pushWithWing();
-
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
