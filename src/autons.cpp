@@ -90,62 +90,17 @@ void pushWithHood(){
 // assume robot at the back of the long goal and wing is up
 void pushWithWing()
 {
-  chassis.driveDistance(11, 180, 2);
-  chassis.turnToHeading(120, 10, 5);
-  chassis.driveDistance(-9, 135, 2);
-  chassis.turnToHeading(-170, 10, 10, -1);
+  chassis.driveDistance(17, 210, 5);
+  chassis.turnToHeading(140, 10, 10);
+  chassis.driveDistance(-19, 165, 5);
+  chassis.turnToHeading(180, 10, 10);
   setWing(true);
-  chassis.driveDistance(-15, 12, 180, 6, 3);
-  chassis.driveDistance(-4, 4, 180, 6, 1);
+  chassis.driveDistance(-20, 6);
 }
 
 // ----------------------------------------------------------------------------
 //             autons functions
 // ----------------------------------------------------------------------------
-
-void Right7()
-{
-  chassis.setHeading(0);
-
-  //get three balls from the right side
-  intake();
-  chassis.driveDistance(15, 45, 10);
-  chassis.driveDistance(27, 3);
-
-  // turn towards match load
-  chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-18, 0, 10);
-  chassis.turnToHeading(90, 12, 10);
-
-  toSideWall(1);
-  chassis.turnToHeading(180, 10, 10);
-  setMatchload(true);
-  wait(1500, msec);
-  intake();
-  goaltoMatchLoad();
-  toLongGoal();
-  scoreBalls(2400);
-  stopRollers();
-
-}
-void right4()
-{
-  chassis.setHeading(0);
-
-  //get three balls from the right side
-  intake();
-  chassis.driveDistance(15, 45, 10);
-  chassis.driveDistance(27, 3);
-  
-
-  // turn towards long goal
-  chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-18, 0, 10);
-  chassis.turnToHeading(90, 12, 10);
-  
-  toSideWall(1);
-  toLongGoal();
-}
 
 void left4()
 {
@@ -185,40 +140,14 @@ void left7()
   pushWithHood();
 }
 
-void right7()
+void left5()
 {
-  right4();
-
-  // score balls
-  scoreLong();
-  setMatchload(true);
-  wait(1200, msec);
-  stopRollers();
-
-  intake();
-  goaltoMatchLoad(1);
-
-  //score match loads
-  toLongGoal();
-  scoreLong();
-  setMatchload(false);
-  scoreBalls(2500);
-  pushWithHood();
 
 }
 
-void scoreMiddlePreload(){
-  // score preloaded ball in middle goal
-  chassis.setHeading(180);
-  chassis.driveDistance(-30, 185, 2);
-  scoreMotor.setVelocity(30, percent);
-  scoreMotor.setTimeout(1000, msec);
-  scoreMotor.spinFor(forward, 360, degrees);
-  wait(50, msec);
-  // intake 3 balls from the field
-  chassis.turnToHeading(-110, 10, 10);
-  intake();
-  chassis.driveDistance(18, 3);
+void left8()
+{
+
 }
 
 void skillAuton()
@@ -236,23 +165,25 @@ void runAutonItem() {
     left4();
     // score balls
     scoreLong();
-    wait(2000, msec);
+    setWing(false);
+    wait(1500, msec);
     stopRollers();
-    pushWithHood();
+    pushWithWing();
     break;
   case 1:
-    right4();
+    left5();
     // score balls
     scoreLong();
+    setWing(false);
     wait(2000, msec);
     stopRollers();
-    pushWithHood();
+    pushWithWing();
     break;
   case 2:
     left7();
-    break;  
+    break;
   case 3:
-    right7();
+    left8();
     break;
   case 4:
     skillAuton();
@@ -263,9 +194,9 @@ void runAutonItem() {
 // The names of the autonomous routines to be displayed in the menu.
 char const * autonMenuText[] = {
   "left 4",
-  "right 4 ",
+  "left 5",
   "left 7",
-  "right 7 ",
+  "left 8",
   "skills"
 };
 

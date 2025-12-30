@@ -99,6 +99,7 @@ bool matchColor(){
 bool matchLoadUp = true;
 void toggleMatchLoad()
 {
+  if (matchLoadMotor.installed() == false) return;
   matchLoadMotor.stop(hold);
   matchLoadMotor.setVelocity(100, percent);
   matchLoadMotor.setTimeout(500, msec);
@@ -120,6 +121,8 @@ void toggleMatchLoad()
 
 void setMatchload(bool down)
 {
+  if (matchLoadMotor.installed() == false) return;
+
   if (matchLoadUp && down)
   {
     toggleMatchLoad();
@@ -135,10 +138,11 @@ void setMatchload(bool down)
 
 bool wingUp = false;
 void setWing(bool descore){
+  if (wingMotor.installed() == false) return;
   if(descore && wingUp){
     wingMotor.setVelocity(100, percent);
     wingMotor.setTimeout(1000, msec);
-    wingMotor.spinFor(reverse, 180, degrees);
+    wingMotor.spinFor(reverse, 175, degrees);
     wingMotor.stop(coast);
     wingMotor.stop(hold);
     chassis.stop(hold);
@@ -465,7 +469,18 @@ void buttonAAction()
   printControllerScreen("Running test...");
   
   chassis.setHeading(180);
-  pushWithWing();
+  setWing(false);
+  chassis.driveDistance(17, 210, 5);
+  chassis.turnToHeading(140, 10, 10);
+  chassis.driveDistance(-19, 165, 5);
+  chassis.turnToHeading(180, 10, 10);
+  setWing(true);
+  chassis.driveDistance(-20, 6);
+
+/*  chassis.driveDistance(14, 270, 5);
+  chassis.turnToHeading(120, 10, 10);
+  setWing(true);
+  chassis.driveDistance(-10, 180, 1); */
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
