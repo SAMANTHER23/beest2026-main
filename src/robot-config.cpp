@@ -142,9 +142,8 @@ void setWing(bool descore){
   if(descore && wingUp){
     wingMotor.setVelocity(100, percent);
     wingMotor.setTimeout(1000, msec);
-    wingMotor.spinFor(reverse, 175, degrees);
-    wingMotor.stop(coast);
-    wingMotor.stop(hold);
+    wingMotor.spinFor(reverse, 170, degrees); //tune degree for wing down angle
+    wingMotor.stop(brake);
     chassis.stop(hold);
     wingUp = false;
     return;
@@ -152,7 +151,8 @@ void setWing(bool descore){
   if (!descore && !wingUp){
     wingMotor.spin(forward, 6, volt);
     wait(100, msec);
-    waitUntil(wingMotor.torque() > 0.3);
+    double t = Brain.Timer.time(sec);
+    waitUntil(wingMotor.torque() > 0.3 || Brain.Timer.time(sec) - t > 0.5);
     wingMotor.stop(brake);
     chassis.stop(coast);
     wingUp = true;
@@ -216,13 +216,23 @@ void buttonL2Action() {
 
 void buttonR2Action()
 {
-  if(wingUp) {
+  chassis.stop(hold);
+  controller1.rumble(".");
+  setWing(true);
+  while(controller1.ButtonR2.pressing()){
+     wait(50, msec);
+  }
+  setWing(false);
+  chassis.stop(coast);
+// toggle wing
+/*  
+if(wingUp) {
     setWing(true);
     chassis.stop(hold);
   } else {
     setWing(false);
     chassis.stop(coast);
-  }   
+  }   */
 }
 
 void buttonR1Action(){
@@ -271,7 +281,17 @@ void buttonXAction()
 {
   // disable button if in auton test mode b/c auton test mode buttons do the same thing
   if (autonTestMode) return; 
+
   // macro to descore with wing
+  chassis.setHeading(180);
+
+  chassis.driveDistance(11, 180, 2);
+  chassis.turnToHeading(120, 10, 5);
+  chassis.driveDistance(-9, 135, 2);
+  chassis.turnToHeading(-170, 10, 10, -1);
+  setWing(true);
+  chassis.driveDistance(-16, 180, 1);
+  setWing(false);
 }
 
 void buttonYAction()
@@ -470,17 +490,9 @@ void buttonAAction()
   
   chassis.setHeading(180);
   setWing(false);
-  chassis.driveDistance(17, 210, 5);
-  chassis.turnToHeading(140, 10, 10);
-  chassis.driveDistance(-19, 165, 5);
-  chassis.turnToHeading(180, 10, 10);
-  setWing(true);
-  chassis.driveDistance(-20, 6);
 
-/*  chassis.driveDistance(14, 270, 5);
-  chassis.turnToHeading(120, 10, 10);
-  setWing(true);
-  chassis.driveDistance(-10, 180, 1); */
+  pushWithWing();
+
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

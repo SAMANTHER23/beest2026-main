@@ -95,7 +95,7 @@ void pushWithWing()
   chassis.driveDistance(-19, 165, 5);
   chassis.turnToHeading(180, 10, 10);
   setWing(true);
-  chassis.driveDistance(-20, 6);
+  chassis.driveDistance(-19, 6);
 }
 
 // ----------------------------------------------------------------------------

@@ -9,13 +9,11 @@ void pushWithWing();
 void toSideWall(int side);
 void goaltoMatchLoad(int side = 1);
 void toLongGoal();
-void right4();
-void right7();
+
 void left4();
+void left5();
+void left8();
 void left7();
-
-void scoreMiddlePreload();
-
 
 // system functions and variables
 void pre_auton();
