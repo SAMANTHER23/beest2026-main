@@ -427,7 +427,7 @@ void usercontrol(void) {
   // Exits the autonomous menu.
   exitAuton();
   additionalSetup();
- // setWing(false);
+  if (!wingUp) setWing(false);
 
   // This loop runs forever, controlling the robot during the driver control period.
   while (1) {
