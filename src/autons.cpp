@@ -142,7 +142,12 @@ void left7()
 
 void left5()
 {
-
+  chassis.setHeading(0);
+  intake();
+  chassis.driveDistance(15, -45, 8);
+  chassis.driveDistance(46, -50, 1);
+  wait(500, msec);
+  stopRollers();
 }
 
 void left8()

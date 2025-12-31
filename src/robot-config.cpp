@@ -172,6 +172,104 @@ void scoreBalls(int duration)
   stopRollers();
 }
 
+void scoreBallsUntilNone(int timeout)
+{
+  const int WaitDurationMsec    = 100;  // loop cadence
+  const int DebounceWindowMsec  = 150;  // require this much continuous "no ball" to stop
+
+  int elapsed     = 0;
+  int noBallAccum = 0;
+
+  // If optical sensor not present, fallback to timed scoring
+  if (!colorSortOptical.installed()) {
+    scoreBalls(timeout);
+    return;
+  }
+
+  // Main loop: score/eject based on color sorting, stop when sensor reports no ball stably
+  while (elapsed < timeout)
+  {
+    // handle ball: respect color sort logic
+    if (!matchColor()) {
+      ejectBalls();
+    } else {
+      scoreLong();
+    }
+
+    // advance time and give mechanism time to move the ball
+    wait(WaitDurationMsec, msec);
+    elapsed += WaitDurationMsec;
+
+    // read optical sensor
+    bool ballDetected = colorSortOptical.isNearObject();
+
+    if (!ballDetected) {
+      noBallAccum += WaitDurationMsec;
+      if (noBallAccum >= DebounceWindowMsec) {
+        break; // confirmed empty
+      }
+    } else {
+      // reset debounce and wait until object clears so we don't double-score the same ball
+      noBallAccum = 0;
+      //while (colorSortOptical.isNearObject() && elapsed < timeout) {
+        //wait(WaitDurationMsec, msec);
+        //elapsed += WaitDurationMsec;
+      //}
+    }
+  }
+
+  stopRollers();
+}
+
+void scoreBallsUntilColor(int timeout)
+{
+  const int WaitDurationMsec    = 100;
+  const int DebounceWindowMsec  = 150;  // require this long of continuous "no ball" to stop
+
+  int elapsed      = 0;
+  int noBallAccum  = 0;
+
+  // fallback to time-based scoring if optical sensor isn't present
+  if (!colorSortOptical.installed()) {
+    scoreBalls(timeout);
+    return;
+  }
+
+  // make sensor reliable
+  colorSortOptical.setLight(ledState::on);
+  colorSortOptical.setLightPower(100, percent);
+
+  while (elapsed < timeout)
+  {
+    bool present = colorSortOptical.isNearObject();
+
+    if (!present) {
+      noBallAccum += WaitDurationMsec;
+      if (noBallAccum >= DebounceWindowMsec) break; // stable "no ball"
+      wait(WaitDurationMsec, msec);
+      elapsed += WaitDurationMsec;
+      continue;
+    }
+
+    // object present -> reset "no ball" debounce and handle it
+    noBallAccum = 0;
+
+    // use your existing color check (matchColor returns true = good)
+    if (!matchColor()) {
+      ejectBalls();
+    } else {
+      scoreLong();
+    }
+
+    // wait until this object clears so we don't double-handle the same ball
+    while (colorSortOptical.isNearObject() && elapsed < timeout) {
+      wait(WaitDurationMsec, msec);
+      elapsed += WaitDurationMsec;
+    }
+  }
+
+  stopRollers();
+}
 void additionalSetup() {
   matchLoadMotor.stop(hold);
   matchLoadMotor.setVelocity(100, percent);
@@ -491,7 +589,10 @@ void buttonAAction()
   chassis.setHeading(180);
   setWing(false);
 
-  pushWithWing();
+
+left5();
+
+
 
 
   double t2 = Brain.Timer.time(sec);
