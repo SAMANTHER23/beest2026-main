@@ -90,7 +90,7 @@ void pushWithHood(){
 // assume robot at the back of the long goal and wing is up
 void pushWithWing()
 {
-  chassis.driveDistance(17, 210, 5);
+  chassis.driveDistance(15, 210, 5);
   chassis.turnToHeading(140, 10, 10);
   chassis.driveDistance(-19, 165, 5);
   chassis.turnToHeading(180, 10, 10);

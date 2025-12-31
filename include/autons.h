@@ -5,6 +5,7 @@
 // helper functions
 void pushWithHood();
 void pushWithWing();
+void setWing(bool down);
 
 void toSideWall(int side);
 void goaltoMatchLoad(int side = 1);
