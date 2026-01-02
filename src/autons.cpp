@@ -204,30 +204,19 @@ void runAutonItem() {
     pushWithWing();
     break;
   case 1:
-    left5();
-    scoreLong();
-    setWing(false);
-    wait(2000, msec);
-    stopRollers();
-    pushWithWing();
-    break;
-  case 2:
     left7();
     break;
-  case 3:
-    left8();
-    break;
-  case 4:
+  case 2:
     right4();
     setWing(false);
     wait(1500, msec);
     stopRollers();
     pushWithWing();
     break;
-  case 5:
+  case 3:
     rightAWP();
     break;
-  case 6:
+  case 4:
     skillAuton();
     break;
   }
@@ -236,9 +225,7 @@ void runAutonItem() {
 // The names of the autonomous routines to be displayed in the menu.
 char const * autonMenuText[] = {
   "left 4",
-  "left 5",
   "left 7",
-  "left 8",
   "right 4",
   "right awp",
   "skills"

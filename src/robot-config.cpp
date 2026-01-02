@@ -29,7 +29,7 @@ motor matchLoadMotor = motor(PORT14, ratio18_1, false);
 motor wingMotor = motor(PORT6, ratio18_1, false);
 
 // total number of motors, including drivetrain
-const int NUMBER_OF_MOTORS = 9;
+const int NUMBER_OF_MOTORS = 10;
 
 distance frontDistanceSensor = distance(PORT4);
 optical colorSortOptical = optical(PORT19); // assign to an unused port if not used
