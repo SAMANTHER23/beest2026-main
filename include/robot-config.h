@@ -13,6 +13,8 @@ void scoreBalls(int duration);
 float getFrontDistance();
 void setWing(bool descore);
 void setMatchload(bool down);
+void scoreBallsUntilNone(int timeout);
+void matchLoadUntilColor(int timeout);
 
 extern motor scoreMotor;
 extern bool matchLoadUp;
