@@ -109,11 +109,10 @@ void left4()
   chassis.driveDistance(15, -45, 10);
   chassis.driveDistance(27, 3);
 
-  // turn towards match load
+  // drive to long goal
   chassis.turnToHeading(0, 10, 10);
   chassis.driveDistance(-18, 0, 10);
   chassis.turnToHeading(-90, 12, 10);
-
   toSideWall(-1);
   toLongGoal();
 }
@@ -122,7 +121,7 @@ void left7()
 {
   left4();
 
-    // score balls
+  // score balls
   scoreLong();
   setMatchload(true);
   wait(1500, msec);
@@ -148,10 +147,39 @@ void left5()
   chassis.driveDistance(46, -50, 1);
   wait(500, msec);
   stopRollers();
+
+  // todo: drive to the long goal
 }
 
 void left8()
 {
+  left5();
+
+  // todo: get match loads
+
+}
+
+void right4()
+{
+  //get three balls from the right side
+  chassis.setHeading(0);
+  intake();
+  chassis.driveDistance(15, 47, 10);
+  chassis.driveDistance(27, 3);
+
+  // drive to long goal
+  chassis.turnToHeading(0, 10, 10);
+  chassis.driveDistance(-24, 0, 10);
+  chassis.turnToHeading(90, 12, 10);
+  toSideWall(1);
+  toLongGoal();
+}
+
+void rightAWP()
+{
+  right4();
+
+  //todo: get matchload and score at the bottom goal
 
 }
 
@@ -177,7 +205,6 @@ void runAutonItem() {
     break;
   case 1:
     left5();
-    // score balls
     scoreLong();
     setWing(false);
     wait(2000, msec);
@@ -191,6 +218,16 @@ void runAutonItem() {
     left8();
     break;
   case 4:
+    right4();
+    setWing(false);
+    wait(1500, msec);
+    stopRollers();
+    pushWithWing();
+    break;
+  case 5:
+    rightAWP();
+    break;
+  case 6:
     skillAuton();
     break;
   }
@@ -202,6 +239,8 @@ char const * autonMenuText[] = {
   "left 5",
   "left 7",
   "left 8",
+  "right 4",
+  "right awp",
   "skills"
 };
 

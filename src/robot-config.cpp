@@ -141,20 +141,16 @@ void setWing(bool descore){
   if (wingMotor.installed() == false) return;
   if(descore && wingUp){
     wingMotor.setVelocity(100, percent);
-    wingMotor.setTimeout(1000, msec);
+    wingMotor.setTimeout(300, msec);
     wingMotor.spinFor(reverse, 170, degrees); //tune degree for wing down angle
     wingMotor.stop(brake);
-    chassis.stop(hold);
     wingUp = false;
     return;
   }
   if (!descore && !wingUp){
     wingMotor.spin(forward, 6, volt);
-    wait(100, msec);
-    double t = Brain.Timer.time(sec);
-    waitUntil(wingMotor.torque() > 0.3 || Brain.Timer.time(sec) - t > 0.5);
+    wait(200, msec);
     wingMotor.stop(brake);
-    chassis.stop(coast);
     wingUp = true;
   }
 }
@@ -318,7 +314,7 @@ void buttonR2Action()
   controller1.rumble(".");
   setWing(true);
   while(controller1.ButtonR2.pressing()){
-     wait(50, msec);
+     wait(100, msec);
   }
   setWing(false);
   chassis.stop(coast);
@@ -385,7 +381,7 @@ void buttonXAction()
 
   chassis.driveDistance(11, 180, 2);
   chassis.turnToHeading(120, 10, 5);
-  chassis.driveDistance(-9, 135, 2);
+  chassis.driveDistance(-10, 135, 2);
   chassis.turnToHeading(-170, 10, 10, -1);
   setWing(true);
   chassis.driveDistance(-16, 180, 1);
@@ -585,12 +581,7 @@ void buttonAAction()
 
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
-  
-  chassis.setHeading(180);
-  setWing(false);
 
-
-left5();
 
 
 
