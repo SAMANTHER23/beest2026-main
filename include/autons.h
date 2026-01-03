@@ -18,6 +18,7 @@ void left7();
 void right4();
 void rightAWP();
 void skillAuton();
+void leftmatch();
 
 // system functions and variables
 void pre_auton();

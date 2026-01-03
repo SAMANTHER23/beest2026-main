@@ -151,6 +151,31 @@ void left5()
   // todo: drive to the long goal
 }
 
+void leftmatch()
+{
+  chassis.setHeading(-90);
+  toSideWall(-1);
+  chassis.turnToHeading(180);
+  goaltoMatchLoad(-1);
+  matchLoadUntilColor(2000);
+  toLongGoal();
+  setMatchload(false);
+  scoreLong();
+  wait(500, msec);
+  scoreBallsUntilNone(2000);
+  chassis.driveDistance(13, 6);
+  chassis.turnToHeading(90);
+  chassis.driveDistance(90, 6);
+  chassis.turnToHeading(180);
+  goaltoMatchLoad(1);
+  matchLoadUntilColor(2000);
+  toLongGoal();
+  scoreLong();
+  wait(500, msec);
+  scoreBallsUntilNone(2000);
+  pushWithHood();
+}
+
 void left8()
 {
   left5();
@@ -178,6 +203,11 @@ void right4()
 void rightAWP()
 {
   right4();
+  //score balls in long goal
+  scoreLong();
+  setMatchload(true);
+  wait(1500, msec);
+  stopRollers();
 
   //todo: get matchload and score at the bottom goal
   goaltoMatchLoad(1);
@@ -230,6 +260,9 @@ void runAutonItem() {
   case 4:
     skillAuton();
     break;
+  case 5:
+    leftmatch();
+    break;
   }
 }
 
@@ -240,6 +273,7 @@ char const * autonMenuText[] = {
   "right 4",
   "right awp",
   "skills"
+  "left matchload"
 };
 
 
