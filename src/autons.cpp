@@ -33,30 +33,7 @@ void goaltoMatchLoad(int side) // left side and right side may be different
   chassis.stop(hold);
 
   // get matchloads
-  wait(800, msec);
-//  stopRollers();
-}
-
-
-// assume the robot is facing south
-void toMatchLoad(int side) // left side and right side may be different
-{
-  if(matchLoadUp) 
-  {
-    setMatchload(true);
-    wait(1000, msec);
-  }
-  intake();
-
-  // push into the match load
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(FRONTWALL_DISTANCE-5, 6, 180, 6, 3);
-  chassis.driveWithVoltage(8, 8);
-  wait(200, msec);
-  chassis.stop(hold);
-
-  // get matchloads
-  wait(800, msec);
+  matchLoadUntilColor(1500);
 //  stopRollers();
 }
 
@@ -124,7 +101,8 @@ void left7()
   // score balls
   scoreLong();
   setMatchload(true);
-  wait(1500, msec);
+  wait(500, msec);
+  scoreBallsUntilNone(1000);
   stopRollers();
   
   //get match loads
@@ -135,20 +113,9 @@ void left7()
   toLongGoal();
   scoreLong();
   setMatchload(false);
-
-  pushWithHood();
-}
-
-void left5()
-{
-  chassis.setHeading(0);
-  intake();
-  chassis.driveDistance(15, -45, 8);
-  chassis.driveDistance(46, -50, 1);
   wait(500, msec);
-  stopRollers();
-
-  // todo: drive to the long goal
+  scoreBallsUntilNone(1000);
+  pushWithHood();
 }
 
 void leftmatch()
@@ -176,14 +143,6 @@ void leftmatch()
   pushWithHood();
 }
 
-void left8()
-{
-  left5();
-
-  // todo: get match loads
-
-}
-
 void right4()
 {
   //get three balls from the right side
@@ -206,13 +165,12 @@ void rightAWP()
   //score balls in long goal
   scoreLong();
   setMatchload(true);
-  wait(1500, msec);
+  wait(500, msec);
+  scoreBallsUntilNone(1000);
   stopRollers();
 
   //get matchload and score at the bottom goal
-  chassis.setHeading(180);
   goaltoMatchLoad(1);
-  matchLoadUntilColor(2000);
 
   // drive back and turn towards middle goal
   chassis.driveDistance(-6.5, 6);
@@ -245,7 +203,8 @@ void runAutonItem() {
     // score balls
     scoreLong();
     setWing(false);
-    wait(1500, msec);
+    wait(500, msec);
+    scoreBallsUntilNone(1000);
     stopRollers();
     pushWithWing();
     break;
@@ -255,10 +214,9 @@ void runAutonItem() {
   case 2:
     right4();
     scoreLong();
-    wait(500, msec);
-    scoreBallsUntilNone(5000);
     setWing(false);
-    wait(1500, msec);
+    wait(500, msec);
+    scoreBallsUntilNone(1000);
     stopRollers();
     pushWithWing();
     break;
@@ -267,9 +225,6 @@ void runAutonItem() {
     break;
   case 4:
     skillAuton();
-    break;
-  case 5:
-    leftmatch();
     break;
   }
 }
@@ -281,7 +236,6 @@ char const * autonMenuText[] = {
   "right 4",
   "right awp",
   "skills"
-  "left matchload"
 };
 
 
