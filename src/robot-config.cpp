@@ -239,7 +239,7 @@ void scoreBallsUntilNone(int timeout)
       //}
     }
   }
-
+  colorSortOptical.setLight(ledState::off);
   stopRollers();
 }
 
