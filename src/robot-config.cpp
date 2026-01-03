@@ -558,27 +558,28 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-  chassis.setHeading(-90);
-  toSideWall(-1);
-  chassis.turnToHeading(180);
-  goaltoMatchLoad(-1);
-  matchLoadUntilColor(2000);
-  toLongGoal();
-  setMatchload(false);
+
+  right4();
+  //score balls in long goal
   scoreLong();
-  wait(500, msec);
-  scoreBallsUntilNone(2000);
-  chassis.driveDistance(13, 6);
-  chassis.turnToHeading(90);
-  chassis.driveDistance(80, 90, 6);
-  chassis.turnToHeading(180);
+  setMatchload(true);
+  wait(1500, msec);
+  stopRollers();
+  //todo: get matchload and score at the bottom goal
+  chassis.setHeading(180);
   goaltoMatchLoad(1);
   matchLoadUntilColor(2000);
-  toLongGoal();
-  scoreLong();
-  wait(500, msec);
-  scoreBallsUntilNone(2000);
-  pushWithHood();
+  chassis.driveDistance(-6.5, 6);
+  chassis.turnToHeading(-45, 10);
+  setMatchload(false);
+  intake();
+  wait(200, msec);
+  stopRollers();
+  chassis.driveDistance(47.5);
+  reverseIntake();
+  wait(1500, msec);
+  stopRollers();
+
 
 
 

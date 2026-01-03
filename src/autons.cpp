@@ -27,7 +27,7 @@ void goaltoMatchLoad(int side) // left side and right side may be different
   // push into the match load
   chassis.getDistanceFunc = getFrontDistance;
   if (side == -1) chassis.driveToWall(FRONTWALL_DISTANCE-4, 6, 180, 6, 3);
-  if (side == 1) chassis.driveToWall(FRONTWALL_DISTANCE-2, 6, 180, 6, 3);
+  if (side == 1) chassis.driveToWall(FRONTWALL_DISTANCE-3, 6, 180, 6, 3);
   chassis.driveWithVoltage(8, 8);
   wait(100, msec);
   chassis.stop(hold);
@@ -209,16 +209,24 @@ void rightAWP()
   wait(1500, msec);
   stopRollers();
 
-  //todo: get matchload and score at the bottom goal
+  //get matchload and score at the bottom goal
+  chassis.setHeading(180);
   goaltoMatchLoad(1);
   matchLoadUntilColor(2000);
-  chassis.driveDistance(-9, 6);
+
+  // drive back and turn towards middle goal
+  chassis.driveDistance(-6.5, 6);
   chassis.turnToHeading(-45, 10);
   setMatchload(false);
   intake();
   wait(200, msec);
   stopRollers();
-  chassis.driveDistance(43, -45, 1);
+
+  // score in bottom goal
+  chassis.driveDistance(47.5);
+  reverseIntake();
+  wait(1500, msec);
+  stopRollers();
 }
 
 void skillAuton()

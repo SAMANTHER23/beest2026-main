@@ -3,8 +3,8 @@
 #ifdef homeField
 // field 1
 float const GOAL_DISTANCE = 40.4;
-float const SIDEWALL_DISTANCE = 19.4;
-float const FRONTWALL_DISTANCE = 16;
+float const SIDEWALL_DISTANCE = 20;
+float const FRONTWALL_DISTANCE = 16.1;
 #endif
 
 #ifdef field2
