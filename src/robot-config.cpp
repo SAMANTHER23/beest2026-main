@@ -243,8 +243,6 @@ void scoreBallsUntilNone(int timeout)
   stopRollers();
 }
 
-
-
 void additionalSetup() {
   matchLoadMotor.stop(hold);
   matchLoadMotor.setVelocity(100, percent);

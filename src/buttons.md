@@ -32,7 +32,6 @@
 
 ## Left 
 * press to cycle through color sort modes
-* hold to eject balls
 
 ## Up
 * hold to run score roller half speed
@@ -41,7 +40,6 @@
 * hold to reverse intake
 
 ## Y
-* If not in test mode, matchload marco
 * If in test mode, cycle through drive mode
 
 ## X
