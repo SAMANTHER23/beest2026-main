@@ -7,8 +7,11 @@ void pushWithHood();
 void pushWithWing();
 void setWing(bool down);
 
+
 void toSideWall(int side);
+void pushIntoMatchload(int side);
 void goaltoMatchLoad(int side = 1);
+void directToMatchload(int side);
 void toLongGoal();
 
 void left4();

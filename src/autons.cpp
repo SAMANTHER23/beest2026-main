@@ -6,6 +6,16 @@ int currentAutonSelection = 0;        // Current auton selection
 //             Helper functions
 // ----------------------------------------------------------------------------
 
+void pushIntoMatchload(int side)
+{
+  chassis.getDistanceFunc = getFrontDistance;
+  if (side == -1) chassis.driveToWall(FRONTWALL_DISTANCE-4, 6, 180, 6, 3);
+  if (side == 1) chassis.driveToWall(FRONTWALL_DISTANCE-3, 6, 180, 6, 3);
+  chassis.driveWithVoltage(8, 8);
+  wait(100, msec);
+  chassis.stop(hold);
+}
+
 // assume the robot is facing south
 void goaltoMatchLoad(int side) // left side and right side may be different
 {
@@ -19,21 +29,14 @@ void goaltoMatchLoad(int side) // left side and right side may be different
   // drive near  the match load 
   float d = getFrontDistance();
   float h = 180;
-  if (side == -1) h = 177;
+  if (side == -1) h = 179;
   if (side == 1) h = 182;
 
   chassis.driveDistance(d-FRONTWALL_DISTANCE - 2, h, 2);
 
-  // push into the match load
-  chassis.getDistanceFunc = getFrontDistance;
-  if (side == -1) chassis.driveToWall(FRONTWALL_DISTANCE-4, 6, 180, 6, 3);
-  if (side == 1) chassis.driveToWall(FRONTWALL_DISTANCE-3, 6, 180, 6, 3);
-  chassis.driveWithVoltage(8, 8);
-  wait(100, msec);
-  chassis.stop(hold);
+  pushIntoMatchload(side);
 
-  // get matchloads
-  matchLoadUntilColor(1500);
+  matchLoadUntilColor(1000);
 //  stopRollers();
 }
 
@@ -43,6 +46,26 @@ void toSideWall(int side)
   chassis.getDistanceFunc = getFrontDistance;
   chassis.driveToWall(SIDEWALL_DISTANCE, 90*side, 2);
   chassis.turnToHeading(180, 10, 2);
+}
+
+void directToMatchload(int side)
+{
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(SIDEWALL_DISTANCE-1, 90*side, 2);
+  setMatchload(true);
+  intake();
+  chassis.turnToHeading(180, 10, 2);
+
+  pushIntoMatchload(side);
+  matchLoadUntilColor(1000);
+  toLongGoal();
+
+  // total 4.4 seconds
+
+  scoreLong();
+  setMatchload(false);
+  wait(500, msec);
+  scoreBallsUntilNone(1000);
 }
 
 // assume robot facing south
@@ -73,6 +96,7 @@ void pushWithWing()
   chassis.turnToHeading(180, 10, 10);
   setWing(true);
   chassis.driveDistance(-19, 6);
+  //total 2.8 seconds
 }
 
 // ----------------------------------------------------------------------------
@@ -92,6 +116,8 @@ void left4()
   chassis.turnToHeading(-90, 12, 10);
   toSideWall(-1);
   toLongGoal();
+
+  // total 5.4 seconds
 }
 
 void left7()
@@ -115,32 +141,21 @@ void left7()
   setMatchload(false);
   wait(500, msec);
   scoreBallsUntilNone(1000);
+
+  // total 12 seconds
+
   pushWithHood();
 }
 
-void leftmatch()
+void bothMatchloads()
 {
-  chassis.setHeading(-90);
-  toSideWall(-1);
-  chassis.turnToHeading(180);
-  goaltoMatchLoad(-1);
-  matchLoadUntilColor(2000);
-  toLongGoal();
-  setMatchload(false);
-  scoreLong();
-  wait(500, msec);
-  scoreBallsUntilNone(2000);
-  chassis.driveDistance(13, 6);
-  chassis.turnToHeading(90);
-  chassis.driveDistance(90, 6);
-  chassis.turnToHeading(180);
-  goaltoMatchLoad(1);
-  matchLoadUntilColor(2000);
-  toLongGoal();
-  scoreLong();
-  wait(500, msec);
-  scoreBallsUntilNone(2000);
-  pushWithHood();
+  directToMatchload(-1);
+
+  chassis.driveDistance(17, 180, 10);
+  chassis.turnToHeading(90, 12, 10);
+  chassis.driveDistance(85, 90, 10);
+
+  directToMatchload(1);
 }
 
 void right4()

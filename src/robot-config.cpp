@@ -556,10 +556,7 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
 
-  left7();
-
-
-
+  chassis.setHeading(180);
 
 
 
