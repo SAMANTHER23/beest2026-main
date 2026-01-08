@@ -7,21 +7,19 @@ void pushWithHood();
 void pushWithWing();
 void setWing(bool down);
 
-
 void toSideWall(int side);
 void pushIntoMatchload(int side);
 void goaltoMatchLoad(int side = 1);
 void directToMatchload(int side);
 void toLongGoal();
 
+void scoreBottomFromGoal();
+
 void left4();
-void left5();
-void left8();
 void left7();
 void right4();
 void rightAWP();
 void skillAuton();
-void leftmatch();
 
 // system functions and variables
 void pre_auton();

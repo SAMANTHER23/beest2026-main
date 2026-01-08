@@ -49,19 +49,19 @@ float getFrontDistance(){
 void intake(){
   intakeMotor.spin(forward, 12, volt);
   scoreMotor.stop(hold);
-  scoreMotor.spin(forward, 1, volt);
 }
 
 void stopRollers(){
   intakeMotor.stop(brake);
   scoreMotor.stop(brake);
+  if (colorSortOptical.installed()) colorSortOptical.setLight(ledState::off);
   chassis.stop(coast);
 }
 
 void reverseIntake(){
   chassis.stop(hold);
   intakeMotor.spin(reverse, 12, volt);
-  scoreMotor.spin(reverse, 12, volt);
+  scoreMotor.spin(reverse, 2, volt);
 }
 
 void scoreLong(){
@@ -260,7 +260,11 @@ void buttonL1Action() {
       // todo:  score bottom maco
       reverseIntake();
     }
-    else intake();
+    else 
+    {
+      intake();
+      scoreMotor.spin(forward, 1, volt);
+    }
     wait(50, msec);
   }
   stopRollers();
@@ -557,8 +561,13 @@ void buttonAAction()
   printControllerScreen("Running test...");
 
   chassis.setHeading(180);
+  
+  //get match loads
+  intake();
+  goaltoMatchLoad(-1);
 
-
+  //score match loads
+  toLongGoal();
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
