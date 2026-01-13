@@ -31,10 +31,10 @@ motor wingMotor = motor(PORT6, ratio18_1, false);
 // total number of motors, including drivetrain
 const int NUMBER_OF_MOTORS = 10;
 
-distance frontDistanceSensor = distance(PORT4);
-optical colorSortOptical = optical(PORT19); // assign to an unused port if not used
-optical matchLoadOptical = optical (PORT10); // assign to an unused port if not used
+optical colorSortOptical = optical(PORT19); 
+optical matchLoadOptical = optical (PORT10); 
 
+distance frontDistanceSensor = distance(PORT4);
 float getFrontDistance(){
   float d = 0;
   if(frontDistanceSensor.installed()){
@@ -48,7 +48,7 @@ float getFrontDistance(){
 
 void intake(){
   intakeMotor.spin(forward, 12, volt);
-  scoreMotor.stop(hold);
+  scoreMotor.spin(forward, 1, volt);
 }
 
 void stopRollers(){
@@ -194,22 +194,22 @@ void matchLoadUntilColor(int timeout)
   matchLoadOptical.setLight(ledState::off);
 }
 
-void scoreBallsUntilNone(int timeout)
+void scoreBallsUntilNone(int maxTime)
 {
   const int WaitDurationMsec    = 100;  // loop cadence
   const int DebounceWindowMsec  = 150;  // require this much continuous "no ball" to stop
 
-  int elapsed     = 0;
-  int noBallAccum = 0;
-
   // If optical sensor not present, fallback to timed scoring
   if (!colorSortOptical.installed()) {
-    scoreBalls(timeout);
+    scoreBalls(maxTime);
     return;
   }
 
+  int elapsed     = 0;
+  int noBallAccum = 0;
+
   // Main loop: score/eject based on color sorting, stop when sensor reports no ball stably
-  while (elapsed < timeout)
+  while (elapsed < maxTime)
   {
     // handle ball: respect color sort logic
     if (!matchColor()) {
@@ -257,7 +257,6 @@ void buttonL1Action() {
   while(controller1.ButtonL1.pressing()){
     if (controller1.ButtonR2.pressing()) 
     {
-      // todo:  score bottom maco
       reverseIntake();
     }
     else 
@@ -279,7 +278,6 @@ void buttonL2Action() {
     else {
       if (controller1.ButtonR2.pressing()) 
       {
-        // eject balls macro
         ejectBalls();
       }
       else scoreLong();
@@ -320,7 +318,7 @@ void buttonR1Action(){
   }
   stopRollers();
   float d = getFrontDistance();
-  if ( d > 0 && d < FRONTWALL_DISTANCE + 2) 
+  if ( d > 0 && d < FRONTWALL_DISTANCE) 
   {
     chassis.driveDistance(-10, chassis.getHeading(), 1);
   }
@@ -371,22 +369,14 @@ void buttonXAction()
 
 void buttonYAction()
 {
-  // disable button if in auton test mode b/c auton test mode buttons do the same thing
   if (autonTestMode) return; 
 
-  // macro to matchload and intake
+  // macro to do something
 }
 
 void buttonLeftAction(){
   if (autonTestMode) return; 
   changeColorSortMode();
-
-  wait(300, msec);
-  if (controller1.ButtonLeft.pressing()){
-    chassis.setHeading(180);
-    pushWithWing();
-  }
-
 }
 
 void buttonRightAction(){
@@ -564,7 +554,7 @@ void buttonAAction()
   
   //get match loads
   intake();
-  goaltoMatchLoad(-1);
+  goalToMatchload(-1);
 
   //score match loads
   toLongGoal();

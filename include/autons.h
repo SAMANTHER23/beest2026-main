@@ -8,8 +8,8 @@ void pushWithWing();
 void setWing(bool down);
 
 void toSideWall(int side);
-void pushIntoMatchload(int side);
-void goaltoMatchLoad(int side = 1);
+void get3Matchloads();
+void goalToMatchload(int side = 1);
 void directToMatchload(int side);
 void toLongGoal();
 
