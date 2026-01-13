@@ -190,7 +190,7 @@ void matchLoadUntilColor(int timeout)
     }
     wait(20, msec);
   }
-  stopRollers();
+//  stopRollers();
   matchLoadOptical.setLight(ledState::off);
 }
 
@@ -356,6 +356,10 @@ void buttonXAction()
   if (autonTestMode) return; 
 
   // macro to descore with wing
+
+  // assume at the long goal and adjust to face south
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
   chassis.setHeading(180);
 
   chassis.driveDistance(11, 180, 2);
@@ -363,7 +367,10 @@ void buttonXAction()
   chassis.driveDistance(-10, 135, 2);
   chassis.turnToHeading(-170, 10, 10, -1);
   setWing(true);
-  chassis.driveDistance(-16, 180, 1);
+  chassis.driveDistance(-24, 180, 10);
+  chassis.stop(hold);
+  wait(50, msec);
+  chassis.stop(coast);
   setWing(false);
 }
 
@@ -549,15 +556,20 @@ void buttonAAction()
 
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
+  // start your test code here
 
-  chassis.setHeading(180);
-  
-  //get match loads
+//  chassis.setHeading(330);
+//  chassis.driveDistance(16);
+
+
+chassis.setHeading(-90);
+int side = -1;
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(SIDEWALL_DISTANCE,  90*side, 1);
+  setMatchload(true);
   intake();
-  goalToMatchload(-1);
-
-  //score match loads
-  toLongGoal();
+  chassis.turnToHeading(180, 10, 2); 
+  get3Matchloads();
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

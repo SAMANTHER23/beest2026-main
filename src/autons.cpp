@@ -36,7 +36,7 @@ void get3Matchloads()
   chassis.getDistanceFunc = getFrontDistance;
   chassis.driveToWall(FRONTWALL_DISTANCE, 6, 180, 6, 3);
   chassis.driveWithVoltage(8, 8);
-  wait(100, msec);
+  wait(120, msec);  // tune the time
   chassis.stop(hold);
 
   matchLoadUntilColor(800);
@@ -85,13 +85,14 @@ void pushWithHood(){
 // assume robot at the back of the long goal and wing is up
 void pushWithWing()
 {
+  //  chassis.setHeading(180);
   chassis.driveDistance(11, 180, 2);
   chassis.turnToHeading(120, 10, 5);
   chassis.driveDistance(-10, 135, 2);
   chassis.turnToHeading(-170, 10, 10, -1);
   setWing(true);
-  chassis.driveDistance(-16, 180, 1);
-  setWing(false);
+  chassis.driveDistance(-24, 180, 10);
+  chassis.stop(hold);
   //total 2.8 seconds
 }
 
@@ -99,20 +100,19 @@ void pushWithWing()
 void directToMatchload(int side)
 {
   chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(SIDEWALL_DISTANCE-1, 90*side, 2);
+  chassis.driveToWall(SIDEWALL_DISTANCE,  90*side, 1);
   setMatchload(true);
   intake();
-  chassis.turnToHeading(180, 10, 2);
-
+  chassis.turnToHeading(180, 10, 2); 
   get3Matchloads();
 
-  // total 4.4 seconds
+  // total 4.6 seconds
 
   scoreLong();
   setMatchload(false);
   wait(500, msec);
   scoreBallsUntilNone(1000);
-  // total 6.2 seconds
+  // total 6.3 seconds
 }
 
 
@@ -129,12 +129,12 @@ void left4()
 
   // drive to long goal
   chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-18, 0, 10);
+  chassis.driveDistance(-16, 0, 10);
   chassis.turnToHeading(-90, 12, 10);
   toSideWall(-1);
   toLongGoal();
 
-  // total 5.4 seconds
+  // total 5.3 seconds
 }
 
 void left7()

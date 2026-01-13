@@ -8,7 +8,6 @@ void scoreLong();
 bool matchColor();
 
 
-
 void scoreBalls(int duration);  
 float getFrontDistance();
 void setWing(bool descore);

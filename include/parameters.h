@@ -4,7 +4,7 @@
 // field 1
 float const GOAL_DISTANCE = 42.5;
 float const SIDEWALL_DISTANCE = 20;
-float const FRONTWALL_DISTANCE = 19;
+float const FRONTWALL_DISTANCE = 13;
 #endif
 
 #ifdef field2
