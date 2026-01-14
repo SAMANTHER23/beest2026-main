@@ -46,7 +46,7 @@ void get3Matchloads()
   intake();
 
   chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(13, 6, 180, 6, 3);  // tune the distance
+  chassis.driveToWall(12, 6, 180, 6, 3);  // tune the distance
   chassis.driveWithVoltage(8, 8);
   wait(120, msec);  // tune the time
   chassis.stop(hold);
@@ -170,11 +170,13 @@ void rightAWP() //score matchload balls then bottom goal
 
   // todo: intake 3 field balls and score the bottom goal
   // chassis.setHeading(180);
-  chassis.turnToHeading(-50, 12, 10, 1);
+  chassis.driveDistance(11.8);
+  chassis.turnToHeading(-90);
+  chassis.driveDistance(13);
+  chassis.turnToHeading(-45, 10, 2);
   intake();
-  chassis.driveDistance(29, 7, -45, 6, 1);
-  reverseIntake();
-  wait(1000, msec);
+  chassis.driveDistance(30, 3);
+  stopRollers();
 }
 
 void leftFastField4()
