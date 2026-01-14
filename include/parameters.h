@@ -1,15 +1,13 @@
-#define homeField
+#define PLASTIC
 
-#ifdef homeField
+#ifdef PLASTIC
 // field 1
-float const GOAL_DISTANCE = 42.5;
-float const SIDEWALL_DISTANCE = 20;
-float const FRONTWALL_DISTANCE = 13;
+float const GOAL_DISTANCE = 40.5;
+float const SIDEWALL_DISTANCE = 17;
 #endif
 
-#ifdef field2
+#ifdef METAL
 // field 2
-float const GOAL_DISTANCE = 32.5;
-float const SIDEWALL_DISTANCE = 21;
-float const FRONTWALL_DISTANCE = 12.5;
+float const GOAL_DISTANCE = 40.5;
+float const SIDEWALL_DISTANCE = 17;
 #endif

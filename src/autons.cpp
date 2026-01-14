@@ -11,16 +11,28 @@ void toLongGoal()
 {
   // chassis.setHeading(180);
   float d = getFrontDistance();
-  chassis.driveDistance(d- GOAL_DISTANCE, 180, 2);
+  chassis.driveDistance(d- GOAL_DISTANCE-2, 180, 2);
   chassis.stop(hold);
 }
 
 // assume the robot is either facing left or right
-void toSideWall(int side)
+void sideWallForLongGoal(int side) // left -1, right 1
 {
+  // chassis.setHeading(-90);
   chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(SIDEWALL_DISTANCE, 90*side, 2);
+  chassis.driveToWall(SIDEWALL_DISTANCE+2, 90*side, 2);
   chassis.turnToHeading(180, 10, 2);
+}
+
+// assume the robot is either facing left or right
+void sideWallForMatchload(int side) // left -1, right 1
+{
+  // chassis.setHeading(-90);
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(SIDEWALL_DISTANCE+4,  90*side, 1);
+  setMatchload(true);
+  intake();
+  chassis.turnToHeading(180, 10, 2); 
 }
 
 void get3Matchloads()
@@ -34,61 +46,28 @@ void get3Matchloads()
   intake();
 
   chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(FRONTWALL_DISTANCE, 6, 180, 6, 3);
+  chassis.driveToWall(13, 6, 180, 6, 3);  // tune the distance
   chassis.driveWithVoltage(8, 8);
   wait(120, msec);  // tune the time
   chassis.stop(hold);
 
-  matchLoadUntilColor(800);
-  toLongGoal();
+  matchLoadUntilColor(800); //tune the time
+  // wait(800, msec);
 }
 
-void get6Matchloads()
+void matchloadToLongGoal(int side) // left -1, right 1
 {
+  // assume robot facing south
   // chassis.setHeading(180);
-  if(matchLoadUp) 
+  if (side == -1)
   {
-    setMatchload(true);
-    wait(1000, msec);
+    chassis.driveDistance(11-GOAL_DISTANCE, 180, 2);  
   }
-  intake();
-
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(FRONTWALL_DISTANCE, 6, 180, 6, 3);
-  chassis.driveWithVoltage(8, 8);
-  wait(120, msec);  // tune the time
+  else
+  {
+    chassis.driveDistance(11-GOAL_DISTANCE, 180, 2);  
+  }
   chassis.stop(hold);
-
-  wait(2000, msec);
-  toLongGoal();
-}
-
-// assume the robot is facing south
-void goalToMatchload(int side) // left side and right side may be different
-{
-  // chassis.setHeading(180);
-  if(matchLoadUp) 
-  {
-    setMatchload(true);
-    wait(1000, msec);
-  }
-  intake();
-
-  // drive near  the match load 
-  if (side == -1) chassis.driveDistance(20, 179, 2);
-  if (side == 1)  chassis.driveDistance(20, 182, 2);
-}
-
-void scoreBottomFromGoal()
-{
-  // assume at the goal
-  // chassis.setHeading(180);
-  chassis.turnToHeading(-50, 12, 10, 1);
-  intake();
-  chassis.driveDistance(29, 7, -45, 6, 1);
-  reverseIntake();
-  wait(1000, msec);
-  //total 3 seconds
 }
 
 // assume at the back of the long goal
@@ -113,176 +92,120 @@ void pushWithWing()
   setWing(true);
   chassis.driveDistance(-24, 180, 10);
   chassis.stop(hold);
+  wait(100, msec);
   //total 2.8 seconds
 }
 
-
-void directToMatchload(int side)
+void score4withWingpush(bool pullMatchload = false)
 {
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(SIDEWALL_DISTANCE,  90*side, 1);
-  setMatchload(true);
-  intake();
-  chassis.turnToHeading(180, 10, 2); 
-  get3Matchloads();
-
-  // total 4.6 seconds
-
   scoreLong();
-  setMatchload(false);
-  wait(500, msec);
-  scoreBallsUntilNone(1000);
-  // total 6.3 seconds
+
+  // align better with long goal
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
+  chassis.stop(hold);
+  setWing(false);
+  if (pullMatchload) setMatchload(false);
+
+  scoreBallsUntilNone(1200);
+  // scoreBalls(1200);
+
+  pushWithWing();
 }
+
 
 
 // ----------------------------------------------------------------------------
 //             autons functions
 // ----------------------------------------------------------------------------
 
-void left4()
+void field4(int side)   // left -1, right 1
 {
   chassis.setHeading(0);
+  chassis.driveDistance(15, 45 * side, 10);
   intake();
-  chassis.driveDistance(15, -45, 10);
   chassis.driveDistance(27, 3);
 
   // drive to long goal
-  chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-16, 0, 10);
-  chassis.turnToHeading(-90, 12, 10);
-  toSideWall(-1);
+  chassis.turnToHeading(180, 10, 10);
+  stopRollers();
+  chassis.driveDistance(16, 0, 10);
+  chassis.turnToHeading(90*side, 12, 10);
+  sideWallForLongGoal(side);
   toLongGoal();
+  // total 5.5 seconds
 
-  // total 5.3 seconds
+  score4withWingpush();
+
+  // total 9.3 seconds
+
 }
 
-void left7()
+// todo: need test
+void matchload4(int side) // left -1, right 1
 {
-  left4();
-
-  // score balls
-  scoreLong();
-  setMatchload(true);
-  wait(500, msec);
-  scoreBallsUntilNone(1000);
-  stopRollers();
-  
-  //get match loads
-  goalToMatchload(-1);
+  chassis.setHeading(90 * side);
+  sideWallForMatchload(side);
   get3Matchloads();
-
-  //score match loads
-  scoreLong();
-  setMatchload(false);
-  wait(500, msec);
-  scoreBallsUntilNone(1000);
-
-  // total 12 seconds
-
-  pushWithHood();
-}
-
-void right4()
-{
-  //get three balls from the right side
-  chassis.setHeading(0);
-  intake();
-  chassis.driveDistance(15, 47, 10);
-  chassis.driveDistance(27, 3);
-
-  // drive to long goal
-  chassis.turnToHeading(0, 10, 10);
-  chassis.driveDistance(-24, 0, 10);
-  chassis.turnToHeading(90, 12, 10);
-  toSideWall(1);
-  toLongGoal();
-}
-
-void rightAWP()
-{
-  right4();
-  //score balls in long goal
-  scoreLong();
-  setMatchload(true);
-  wait(500, msec);
-  scoreBallsUntilNone(1000);
   stopRollers();
+  matchloadToLongGoal(side);
+  // 4.5 seconds
 
-  //get matchload
-  goalToMatchload(1);
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(FRONTWALL_DISTANCE, 6, 180, 6, 3);
-  chassis.driveWithVoltage(8, 8);
-  wait(100, msec);
+  score4withWingpush(true);
+}
+
+// need to test
+void rightAWP() //score matchload balls then bottom goal
+{
+  chassis.setHeading(90);
+  sideWallForMatchload(1);
+  get3Matchloads();
+  matchloadToLongGoal(1);
+
+  scoreLong();
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
   chassis.stop(hold);
-  matchLoadUntilColor(800);
+  scoreBallsUntilNone(1200);
 
-  // drive back and turn towards middle goal
-  chassis.driveDistance(-6);
-  chassis.turnToHeading(-45, 10, 2);
-  setMatchload(false);
+  // todo: intake 3 field balls and score the bottom goal
+  // chassis.setHeading(180);
+  chassis.turnToHeading(-50, 12, 10, 1);
   intake();
-  wait(200, msec);
-  stopRollers();
-
-  // score in bottom goal
-  chassis.driveDistance(47);
+  chassis.driveDistance(29, 7, -45, 6, 1);
   reverseIntake();
-  wait(1500, msec);
+  wait(1000, msec);
 }
 
-
-void bothMatchloads()
+void leftFastField4()
 {
-  directToMatchload(-1);
 
-  chassis.driveDistance(17, 180, 10);
-  chassis.turnToHeading(90, 12, 10);
-  chassis.driveDistance(85, 90, 10);
-
-  directToMatchload(1);
 }
 
-void skillAuton()
-{
-  colorSortMode = 0;
-  chassis.setHeading(180);
-  get6Matchloads();
-  scoreLong();
-  setMatchload(false);
-  wait(2500, msec);
-}
 
 // Runs the selected autonomous routine.
 void runAutonItem() {
   additionalSetup();
   switch (currentAutonSelection) {
   case 0:
-    left4();
-    scoreLong();
-    setWing(false);
-    wait(500, msec);
-    scoreBallsUntilNone(1000);
-    stopRollers();
-    pushWithWing();
+    field4(-1);
     break;
   case 1:
-    left7();
+    field4(1);
     break;
   case 2:
-    right4();
-    scoreLong();
-    setWing(false);
-    wait(500, msec);
-    scoreBallsUntilNone(1000);
-    stopRollers();
-    pushWithWing();
+    matchload4(-1);
     break;
   case 3:
-    rightAWP();
+    matchload4(1);
     break;
   case 4:
+    rightAWP();
+    break;
+  case 5:
+    leftFastField4();
+    break;  
+  case 6:
     skillAuton();
     break;
   }
@@ -290,10 +213,12 @@ void runAutonItem() {
 
 // The names of the autonomous routines to be displayed in the menu.
 char const * autonMenuText[] = {
-  "left 4",
-  "left 7",
-  "right 4",
-  "right awp",
+  "left field 4",
+  "right field 4",
+  "left matchload 4",
+  "right matchload 4",
+  "right matchload & bottom",
+  "left fast field 4",
   "skills"
 };
 
@@ -596,4 +521,41 @@ void registerAutonTestButtons()
   {
     thread autonTestButtonThread = thread(autonTestButtonCheck);
   }
+}
+
+
+
+
+// ----------------------------------------------------------------------------
+//                Skill auton
+// ----------------------------------------------------------------------------
+
+
+void get6Matchloads()
+{
+  // chassis.setHeading(180);
+  if(matchLoadUp) 
+  {
+    setMatchload(true);
+    wait(1000, msec);
+  }
+  intake();
+
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(13, 6, 180, 6, 3); // tune the distance
+  chassis.driveWithVoltage(8, 8);
+  wait(120, msec);  // tune the time
+  chassis.stop(hold);
+
+  wait(2000, msec);
+}
+
+void skillAuton()
+{
+  colorSortMode = 0;
+  chassis.setHeading(180);
+  get6Matchloads();
+  scoreLong();
+  setMatchload(false);
+  wait(2500, msec);
 }

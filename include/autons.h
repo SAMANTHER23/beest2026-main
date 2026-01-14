@@ -5,22 +5,20 @@
 // helper functions
 void pushWithHood();
 void pushWithWing();
-void setWing(bool down);
 
-void toSideWall(int side);
+void toLongGoal(); 
+void sideWallForLongGoal(int side);
+void sideWallForMatchload(int side);
 void get3Matchloads();
-void get6Matchloads();
+void matchloadToLongGoal(int side);
 
-void goalToMatchload(int side = 1);
-void directToMatchload(int side);
-void toLongGoal();
+void field4(int side);
+void matchload4(int side);
+void leftFastField4();
 
-void scoreBottomFromGoal();
-
-void left4();
-void left7();
-void right4();
 void rightAWP();
+
+void get6Matchloads();
 void skillAuton();
 
 // system functions and variables

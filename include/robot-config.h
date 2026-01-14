@@ -17,7 +17,7 @@ void scoreBallsUntilNone(int maxTime);
 
 extern motor scoreMotor;
 extern bool matchLoadUp;
-
+extern motor matchLoadMotor;
 
 // ------------------------------------------------------------------------
 //              Standard setup

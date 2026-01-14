@@ -318,7 +318,7 @@ void buttonR1Action(){
   }
   stopRollers();
   float d = getFrontDistance();
-  if ( d > 0 && d < FRONTWALL_DISTANCE) 
+  if ( d > 0 && d < 15) 
   {
     chassis.driveDistance(-10, chassis.getHeading(), 1);
   }
@@ -496,7 +496,7 @@ void usercontrol(void) {
   // Exits the autonomous menu.
   exitAuton();
   additionalSetup();
-  if (!wingUp) setWing(false);
+  //if (!wingUp) setWing(false);
 
   // This loop runs forever, controlling the robot during the driver control period.
   while (1) {
@@ -558,7 +558,7 @@ void buttonAAction()
   printControllerScreen("Running test...");
   // start your test code here
 
-skillAuton();
+  matchload4(1);
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
