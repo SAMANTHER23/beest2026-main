@@ -9,6 +9,8 @@ void setWing(bool down);
 
 void toSideWall(int side);
 void get3Matchloads();
+void get6Matchloads();
+
 void goalToMatchload(int side = 1);
 void directToMatchload(int side);
 void toLongGoal();

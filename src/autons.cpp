@@ -43,6 +43,26 @@ void get3Matchloads()
   toLongGoal();
 }
 
+void get6Matchloads()
+{
+  // chassis.setHeading(180);
+  if(matchLoadUp) 
+  {
+    setMatchload(true);
+    wait(1000, msec);
+  }
+  intake();
+
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(FRONTWALL_DISTANCE, 6, 180, 6, 3);
+  chassis.driveWithVoltage(8, 8);
+  wait(120, msec);  // tune the time
+  chassis.stop(hold);
+
+  wait(2000, msec);
+  toLongGoal();
+}
+
 // assume the robot is facing south
 void goalToMatchload(int side) // left side and right side may be different
 {
@@ -226,9 +246,12 @@ void bothMatchloads()
 
 void skillAuton()
 {
-  intake();
-  wait(1000, msec);
-  stopRollers();
+  colorSortMode = 0;
+  chassis.setHeading(180);
+  get6Matchloads();
+  scoreLong();
+  setMatchload(false);
+  wait(2500, msec);
 }
 
 // Runs the selected autonomous routine.

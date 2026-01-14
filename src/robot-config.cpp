@@ -558,18 +558,7 @@ void buttonAAction()
   printControllerScreen("Running test...");
   // start your test code here
 
-//  chassis.setHeading(330);
-//  chassis.driveDistance(16);
-
-
-chassis.setHeading(-90);
-int side = -1;
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(SIDEWALL_DISTANCE,  90*side, 1);
-  setMatchload(true);
-  intake();
-  chassis.turnToHeading(180, 10, 2); 
-  get3Matchloads();
+skillAuton();
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
