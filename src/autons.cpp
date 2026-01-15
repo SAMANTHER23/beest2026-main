@@ -170,12 +170,12 @@ void rightAWP() //score matchload balls then bottom goal
 
   // todo: intake 3 field balls and score the bottom goal
   // chassis.setHeading(180);
-  chassis.driveDistance(11.8);
-  chassis.turnToHeading(-90);
-  chassis.driveDistance(13);
+  chassis.driveDistance(10);
+  chassis.turnToHeading(-90, 10, 2);
+  chassis.driveDistance(14);
   chassis.turnToHeading(-45, 10, 2);
   intake();
-  chassis.driveDistance(30, 3);
+  chassis.driveDistance(29, 3);
   stopRollers();
 }
 

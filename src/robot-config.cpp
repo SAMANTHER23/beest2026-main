@@ -32,7 +32,7 @@ motor wingMotor = motor(PORT6, ratio18_1, false);
 const int NUMBER_OF_MOTORS = 10;
 
 optical colorSortOptical = optical(PORT19); 
-optical matchLoadOptical = optical (PORT10); 
+optical matchLoadOptical = optical (PORT8); 
 
 distance frontDistanceSensor = distance(PORT4);
 float getFrontDistance(){
@@ -558,7 +558,6 @@ void buttonAAction()
   printControllerScreen("Running test...");
   // start your test code here
 
-  matchload4(1);
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];
