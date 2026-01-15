@@ -558,6 +558,16 @@ void buttonAAction()
   printControllerScreen("Running test...");
   // start your test code here
 
+  chassis.setHeading(180);
+  chassis.driveDistance(9, 180, 1);
+  chassis.turnToHeading(-90, 10, 2);
+  chassis.driveDistance(14);
+  chassis.turnToHeading(-45, 10, 2);
+  intake();
+  chassis.driveDistance(29, 3);
+  reverseIntake();
+  wait(1200, msec);
+
 
   double t2 = Brain.Timer.time(sec);
   char timeMsg[30];

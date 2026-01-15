@@ -14,9 +14,11 @@ void matchloadToLongGoal(int side);
 
 void field4(int side);
 void matchload4(int side);
-void leftFastField4();
 
 void rightAWP();
+
+void left4right3();
+void leftToRight7();
 
 void get6Matchloads();
 void skillAuton();

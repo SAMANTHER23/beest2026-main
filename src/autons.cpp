@@ -122,6 +122,7 @@ void score4withWingpush(bool pullMatchload = false)
 void field4(int side)   // left -1, right 1
 {
   chassis.setHeading(0);
+
   chassis.driveDistance(15, 45 * side, 10);
   intake();
   chassis.driveDistance(27, 3);
@@ -141,7 +142,6 @@ void field4(int side)   // left -1, right 1
 
 }
 
-// todo: need test
 void matchload4(int side) // left -1, right 1
 {
   chassis.setHeading(90 * side);
@@ -166,24 +166,31 @@ void rightAWP() //score matchload balls then bottom goal
   chassis.driveWithVoltage(-6, -6);
   wait(300, msec);
   chassis.stop(hold);
-  scoreBallsUntilNone(1200);
+  scoreBallsUntilNone(2000);
 
-  // todo: intake 3 field balls and score the bottom goal
+  // intake 3 field balls and score the bottom goal
   // chassis.setHeading(180);
-  chassis.driveDistance(10);
+  chassis.driveDistance(9, 180, 1);
   chassis.turnToHeading(-90, 10, 2);
   chassis.driveDistance(14);
   chassis.turnToHeading(-45, 10, 2);
   intake();
   chassis.driveDistance(29, 3);
+  reverseIntake();
+  wait(1200, msec);
   stopRollers();
+  // 6 seconds
 }
 
-void leftFastField4()
+void left4right3()
 {
 
 }
 
+void leftToRight7()
+{
+  
+}
 
 // Runs the selected autonomous routine.
 void runAutonItem() {
@@ -205,9 +212,12 @@ void runAutonItem() {
     rightAWP();
     break;
   case 5:
-    leftFastField4();
-    break;  
+    left4right3();
+    break;
   case 6:
+    leftToRight7();
+    break;
+  case 7:
     skillAuton();
     break;
   }
@@ -220,7 +230,8 @@ char const * autonMenuText[] = {
   "left matchload 4",
   "right matchload 4",
   "right matchload & bottom",
-  "left fast field 4",
+  "Left 4 to Right 3",
+  "Left to Right 7",
   "skills"
 };
 
