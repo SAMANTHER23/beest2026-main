@@ -197,7 +197,7 @@ void matchLoadUntilColor(int timeout)
 void scoreBallsUntilNone(int maxTime)
 {
   const int WaitDurationMsec    = 100;  // loop cadence
-  const int DebounceWindowMsec  = 150;  // require this much continuous "no ball" to stop
+  const int DebounceWindowMsec  = 250;  // require this much continuous "no ball" to stop
 
   // If optical sensor not present, fallback to timed scoring
   if (!colorSortOptical.installed()) {
@@ -558,15 +558,7 @@ void buttonAAction()
   printControllerScreen("Running test...");
   // start your test code here
 
-  chassis.setHeading(180);
-  chassis.driveDistance(9, 180, 1);
-  chassis.turnToHeading(-90, 10, 2);
-  chassis.driveDistance(14);
-  chassis.turnToHeading(-45, 10, 2);
-  intake();
-  chassis.driveDistance(29, 3);
-  reverseIntake();
-  wait(1200, msec);
+leftToRight7();
 
 
   double t2 = Brain.Timer.time(sec);

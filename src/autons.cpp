@@ -184,12 +184,78 @@ void rightAWP() //score matchload balls then bottom goal
 
 void left4right3()
 {
+  chassis.setHeading(-90);
+  sideWallForMatchload(-1);
+  get3Matchloads();
+  stopRollers();
+  matchloadToLongGoal(-1);
 
+  scoreLong();
+  // align better with long goal
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
+  chassis.stop(hold);
+  setMatchload(false);
+
+  scoreBallsUntilNone(1200);
+
+  // go to right side
+  chassis.driveDistance(17, 180, 10);
+  chassis.turnToHeading(90, 10, 10);
+  chassis.driveDistance(78, 12, 90, 6, 10);
+
+  sideWallForMatchload(1);
+  get3Matchloads();
+  stopRollers();
+  matchloadToLongGoal(1);
+
+  scoreLong();
+  // align better with long goal
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
+  chassis.stop(hold);
+  setMatchload(false);
+  scoreBallsUntilNone(1200);
 }
 
 void leftToRight7()
 {
+  chassis.setHeading(90);
+
+  //
+  sideWallForLongGoal(1);
+  toLongGoal();
+
+  scoreLong();
+  // align better with long goal
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
+  chassis.stop(hold);
+  setMatchload(true);
+  scoreBallsUntilNone(1200);
+
+  chassis.driveDistance(20, 180, 2);
   
+  intake();
+  chassis.getDistanceFunc = getFrontDistance;
+  chassis.driveToWall(12, 6, 180, 6, 3);  // tune the distance
+  chassis.driveWithVoltage(8, 8);
+  wait(120, msec);  // tune the time
+  chassis.stop(hold);
+
+  matchLoadUntilColor(800); //tune the time
+
+  stopRollers();
+  matchloadToLongGoal(1);
+  scoreLong();
+  // align better with long goal
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
+  chassis.stop(hold);
+  setMatchload(false);
+  scoreBallsUntilNone(1200);
+  // 8.7 sec
+
 }
 
 // Runs the selected autonomous routine.
