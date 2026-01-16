@@ -4,7 +4,7 @@
 
 // helper functions
 void pushWithHood();
-void pushWithWing();
+void pushWithWing(int distance = 24, int voltage = 6);
 
 void toLongGoal(); 
 void sideWallForLongGoal(int side);
@@ -13,6 +13,7 @@ void get3Matchloads();
 void matchloadToLongGoal(int side);
 
 void field4(int side);
+void left7();
 void matchload4(int side);
 
 void rightAWP();

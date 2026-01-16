@@ -70,6 +70,24 @@ void matchloadToLongGoal(int side) // left -1, right 1
   chassis.stop(hold);
 }
 
+
+void score4(bool putDownMatchload = true)
+{
+  scoreLong();
+
+  // align better with long goal
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
+  chassis.stop(hold);
+//  setWing(false);
+  if (putDownMatchload) setMatchload(true);
+  else setMatchload(false);
+
+ // scoreBallsUntilNone(1200);
+  scoreBalls(1200);
+}
+
+
 // assume at the back of the long goal
 void pushWithHood(){
   chassis.driveWithVoltage(10, 10);
@@ -81,36 +99,20 @@ void pushWithHood(){
   chassis.stop(hold); 
 }
 
-// assume robot at the back of the long goal and wing is up
-void pushWithWing()
+// assume robot at the back of the long goal
+void pushWithWing(int distance, int voltage) // default is 24 inches with voltage 6
 {
   //  chassis.setHeading(180);
+  setWing(true);
   chassis.driveDistance(11, 180, 2);
   chassis.turnToHeading(120, 10, 5);
-  chassis.driveDistance(-10, 135, 2);
+  chassis.driveDistance(-9, 135, 2);
   chassis.turnToHeading(-170, 10, 10, -1);
-  setWing(true);
-  chassis.driveDistance(-24, 10, 180, 6, 10); //tune the drive voltage
+  chassis.driveDistance(-1*distance, voltage, 180, 6, 10); //tune the drive voltage
   chassis.stop(hold);
   wait(100, msec);
   //total 2.8 seconds
 }
-
-void score4(bool pullMatchload = false)
-{
-  scoreLong();
-
-  // align better with long goal
-  chassis.driveWithVoltage(-6, -6);
-  wait(300, msec);
-  chassis.stop(hold);
-  setWing(false);
-  if (pullMatchload) setMatchload(false);
-
-  scoreBallsUntilNone(1200);
-  // scoreBalls(1200);
-}
-
 
 
 // ----------------------------------------------------------------------------
@@ -127,18 +129,14 @@ void field4(int side)   // left -1, right 1
 
   // drive to long goal
   chassis.turnToHeading(180, 10, 10);
-  stopRollers();
   chassis.driveDistance(16, 0, 10);
   chassis.turnToHeading(90*side, 12, 10);
   sideWallForLongGoal(side);
+  stopRollers();
   toLongGoal();
   // total 5.5 seconds
 
   score4();
-  pushWithWing();
-
-  // total 9.3 seconds
-
 }
 
 void matchload4(int side) // left -1, right 1
@@ -150,7 +148,7 @@ void matchload4(int side) // left -1, right 1
   matchloadToLongGoal(side);
   // 4.5 seconds
 
-  score4(true);
+  score4(false);
   pushWithWing();
 }
 
@@ -181,6 +179,30 @@ void rightAWP() //score matchload balls then bottom goal
   wait(1200, msec);
   stopRollers();
   // 6 seconds
+
+  setWing(false);
+}
+
+void left7()
+{
+  field4(-1);
+
+  chassis.driveDistance(20, 180, 2); // tune distance and angle
+  
+  get3Matchloads();
+  matchloadToLongGoal(-1);  
+
+  scoreLong();
+  // align better with long goal
+  chassis.driveWithVoltage(-6, -6);
+  wait(300, msec);
+  chassis.stop(hold);
+  setMatchload(true);
+  setWing(false);
+
+  scoreBalls(2000);
+
+  pushWithHood();
 }
 
 void left4right3()
@@ -203,6 +225,8 @@ void left4right3()
   get3Matchloads();
   matchloadToLongGoal(1);
   score4();
+
+  setWing(false);
 }
 
 // todo:
@@ -223,9 +247,11 @@ void runAutonItem() {
   switch (currentAutonSelection) {
   case 0:
     field4(-1);
+    pushWithWing();
     break;
   case 1:
     field4(1);
+    pushWithWing();
     break;
   case 2:
     matchload4(-1);
@@ -243,6 +269,9 @@ void runAutonItem() {
     leftToRight7();
     break;
   case 7:
+    left7();
+    break;
+  case 8:
     skillAuton();
     break;
   }
@@ -257,6 +286,7 @@ char const * autonMenuText[] = {
   "right AWP (matchload first)",
   "Left 4 to Right 3",
   "Left to Right 7",
+  "Left 7",
   "skills"
 };
 

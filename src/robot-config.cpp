@@ -362,14 +362,8 @@ void buttonXAction()
   wait(300, msec);
   chassis.setHeading(180);
 
-  chassis.driveDistance(11, 180, 2);
-  chassis.turnToHeading(120, 10, 5);
-  chassis.driveDistance(-10, 135, 2);
-  chassis.turnToHeading(-170, 10, 10, -1);
-  setWing(true);
-  chassis.driveDistance(-24, 180, 10);
-  chassis.stop(hold);
-  wait(50, msec);
+  pushWithWing(24, 10);
+
   chassis.stop(coast);
   setWing(false);
 }
@@ -557,8 +551,6 @@ void buttonAAction()
   double t1 = Brain.Timer.time(sec);
   printControllerScreen("Running test...");
   // start your test code here
-
-leftToRight7();
 
 
   double t2 = Brain.Timer.time(sec);
