@@ -61,11 +61,11 @@ void matchloadToLongGoal(int side) // left -1, right 1
   // chassis.setHeading(180);
   if (side == -1)
   {
-    chassis.driveDistance(11-GOAL_DISTANCE, 180, 2);  
+    chassis.driveDistance(11-GOAL_DISTANCE, 180, 2);  // tune the distance and angle
   }
   else
   {
-    chassis.driveDistance(11-GOAL_DISTANCE, 180, 2);  
+    chassis.driveDistance(11-GOAL_DISTANCE, 180, 2);  // tune the distance and angle
   }
   chassis.stop(hold);
 }
@@ -74,8 +74,8 @@ void matchloadToLongGoal(int side) // left -1, right 1
 void pushWithHood(){
   chassis.driveWithVoltage(10, 10);
   wait(200, msec);
-  chassis.stop(brake);
-  wait(100, msec); //no tipping
+  chassis.stop(hold);
+  wait(500, msec); //no tipping
   chassis.driveWithVoltage(-12, -12);
   wait(250, msec);
   chassis.stop(hold); 
@@ -90,13 +90,13 @@ void pushWithWing()
   chassis.driveDistance(-10, 135, 2);
   chassis.turnToHeading(-170, 10, 10, -1);
   setWing(true);
-  chassis.driveDistance(-24, 180, 10);
+  chassis.driveDistance(-24, 10, 180, 6, 10); //tune the drive voltage
   chassis.stop(hold);
   wait(100, msec);
   //total 2.8 seconds
 }
 
-void score4withWingpush(bool pullMatchload = false)
+void score4(bool pullMatchload = false)
 {
   scoreLong();
 
@@ -109,8 +109,6 @@ void score4withWingpush(bool pullMatchload = false)
 
   scoreBallsUntilNone(1200);
   // scoreBalls(1200);
-
-  pushWithWing();
 }
 
 
@@ -136,7 +134,8 @@ void field4(int side)   // left -1, right 1
   toLongGoal();
   // total 5.5 seconds
 
-  score4withWingpush();
+  score4();
+  pushWithWing();
 
   // total 9.3 seconds
 
@@ -147,11 +146,12 @@ void matchload4(int side) // left -1, right 1
   chassis.setHeading(90 * side);
   sideWallForMatchload(side);
   get3Matchloads();
-  stopRollers();
+//  stopRollers();
   matchloadToLongGoal(side);
   // 4.5 seconds
 
-  score4withWingpush(true);
+  score4(true);
+  pushWithWing();
 }
 
 // need to test
@@ -166,7 +166,8 @@ void rightAWP() //score matchload balls then bottom goal
   chassis.driveWithVoltage(-6, -6);
   wait(300, msec);
   chassis.stop(hold);
-  scoreBallsUntilNone(2000);
+  setMatchload(false);
+  scoreBalls(2000);
 
   // intake 3 field balls and score the bottom goal
   // chassis.setHeading(180);
@@ -185,77 +186,35 @@ void rightAWP() //score matchload balls then bottom goal
 void left4right3()
 {
   chassis.setHeading(-90);
+
+  // get left 3 matchload and score
   sideWallForMatchload(-1);
   get3Matchloads();
-  stopRollers();
   matchloadToLongGoal(-1);
-
-  scoreLong();
-  // align better with long goal
-  chassis.driveWithVoltage(-6, -6);
-  wait(300, msec);
-  chassis.stop(hold);
-  setMatchload(false);
-
-  scoreBallsUntilNone(1200);
+  score4();
 
   // go to right side
   chassis.driveDistance(17, 180, 10);
   chassis.turnToHeading(90, 10, 10);
   chassis.driveDistance(78, 12, 90, 6, 10);
 
+  // get the right 3 matchload and score
   sideWallForMatchload(1);
   get3Matchloads();
-  stopRollers();
   matchloadToLongGoal(1);
-
-  scoreLong();
-  // align better with long goal
-  chassis.driveWithVoltage(-6, -6);
-  wait(300, msec);
-  chassis.stop(hold);
-  setMatchload(false);
-  scoreBallsUntilNone(1200);
+  score4();
 }
 
+// todo:
 void leftToRight7()
 {
-  chassis.setHeading(90);
+  // matchload left
 
-  //
-  sideWallForLongGoal(1);
-  toLongGoal();
+  // drive to the right
 
-  scoreLong();
-  // align better with long goal
-  chassis.driveWithVoltage(-6, -6);
-  wait(300, msec);
-  chassis.stop(hold);
-  setMatchload(true);
-  scoreBallsUntilNone(1200);
+  //matchload right
 
-  chassis.driveDistance(20, 180, 2);
-  
-  intake();
-  chassis.getDistanceFunc = getFrontDistance;
-  chassis.driveToWall(12, 6, 180, 6, 3);  // tune the distance
-  chassis.driveWithVoltage(8, 8);
-  wait(120, msec);  // tune the time
-  chassis.stop(hold);
-
-  matchLoadUntilColor(800); //tune the time
-
-  stopRollers();
-  matchloadToLongGoal(1);
-  scoreLong();
-  // align better with long goal
-  chassis.driveWithVoltage(-6, -6);
-  wait(300, msec);
-  chassis.stop(hold);
-  setMatchload(false);
-  scoreBallsUntilNone(1200);
-  // 8.7 sec
-
+  //score 7 together
 }
 
 // Runs the selected autonomous routine.
@@ -295,7 +254,7 @@ char const * autonMenuText[] = {
   "right field 4",
   "left matchload 4",
   "right matchload 4",
-  "right matchload & bottom",
+  "right AWP (matchload first)",
   "Left 4 to Right 3",
   "Left to Right 7",
   "skills"
